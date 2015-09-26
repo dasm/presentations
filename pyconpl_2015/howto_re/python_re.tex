@@ -11,6 +11,7 @@
  
 \documentclass{beamer}
 \usepackage{graphicx}
+\usepackage{amsmath} % provides \text{<stuff>} which prints <stuff> in text mode
 \usepackage{sidecap}
 \usepackage{courier}
 \usepackage{listings}
@@ -42,8 +43,8 @@
 \title{HowTo re}
 \author{Dariusz Śmigiel}
 \date{PyCon PL 2015}
-\usetheme{Madrid}
-\usecolortheme{seahorse}
+\usetheme{Warsaw}
+\usecolortheme{beaver}
 
 \begin{document}
 
@@ -51,48 +52,48 @@
 \titlepage
 \end{frame}
 
-\section*{Outline}
-\begin{frame}
-\tableofcontents
-\end{frame}
-
-\section{Section}
-\subsection{Subsection}
-\begin{frame}
-\end{frame}
-
 \section{History}
 \subsection{Origins}
 \begin{frame}
 \includegraphics[width=1\textwidth]{images/history.png}
-Staffan Noteberg: http://blog.staffannoteberg.com/
 \end{frame}
 
-\subsection{Python module}
-\subsubsection{re module}
+\subsection{re module}
 \begin{frame}
-Delivering Quality and Value since Python 1.5 (December 31, 1997)
+Delivering Quality since December 31, 1997 \\
 \pause
-\subsubsection{regex module}
-\item Deprecated old module `regex`, based on Perl-style patterns.
-\item finally removed in Python 2.5.
+Release of Python 1.5
+\pause
+
+\begin{itemize}
+ \item Deprecated old module `regex`, based on Perl-style patterns.
+\pause
+ \item `regex` finally removed in Python 2.5.
+\end{itemize}
 \end{frame}
 
 \section{Do I need it?}
 \subsection{Matching}
 \begin{frame}
-\item "Does this string match the pattern?"
-\item "Is there a match for the pattern anywhere in this string?"
+Answer for questions:
+ \begin{itemize}
+  \item "Does this string match the pattern?"
+  \item "Is there a match for the pattern anywhere in this string?"
+ \end{itemize}
+\end{frame}
 
 \subsection{Modifying}
+\begin{frame}
+\begin{itemize}
 \item Replace part of it
 \item Split into pieces
+\end{itemize}
 \end{frame}
 
 \section{Under the hood}
 \subsection{Implementation}
 \begin{frame}
-re patterns are compiled into bytecode
+re patterns are compiled into bytecode \\
 \pause
 executed by engine written in C
 \end{frame}
@@ -100,57 +101,64 @@ executed by engine written in C
 \subsection{Features}
 \begin{frame}
 re language is relatively small and restricted
-\item not all possible string processing tasks can be done
-\item some of them can be done, but expression would be very complicated
+\pause
+ \begin{itemize}
+  \item not all possible string processing tasks can be done
+  \item some of them can be done, but expression would be very complicated
+ \end{itemize}
 \end{frame}
 
 \section{Simple patterns}
-\subsection{Matching Characters}
+\subsection{Metacharacters}
 \begin{frame}
-(metacharacters)
-. ^ $ * + ? { } [ ] \ | ( )
+. \textasciicircum{} \$ * + ? \{ \} [ ] \textbackslash{} | ( )
 \end{frame}
 
 \subsubsection{Class}
 \begin{frame}
-[ ]
+`\[ \]` \\
 Specifying a character class, which is set of characters that you wish to match
-\item can be listed individually [abc]
-\item can be given as range of characters, separated by '-' [a-c]
-\end{frame}
+ \begin{itemize}
+  \item can be listed individually `[abc]`
+  \item can be given as range of characters, separated by '-' `[a-c]`
+ \end{itemize}
 \pause
-Metacharacters are not active inside class
-[akm$] will match any of: "a", "k", "m", "$"
+Metacharacters are not active inside class \\
+\[akm\$\] will match any of: "a", "k", "m", "\$"
+\end{frame}
 
 \subsubsection{Complementing set}
 \begin{frame}
-[^5]
-Including '^' as first character of the class: [^5] will match any except '5'
+[\textasciicircum{}]
+[\text{\textasciicircum{}}5]
+Including '\textasciicircum{}' as first character of the class: \[\text{\textasciicircum{}5}\] will match any except '5'
 \end{frame}
 
 \subsubsection{Backslash}
 \begin{frame}
 * escape metacharacters
-For matching "[" or "\" you can use "\[" or "\\"
+For matching "[" or "\\" you can use "\\[" or "\\\\"
 \end{frame}
 
 \begin{frame}
 * express predefined sets of characters: set of digits, letters, everything but whitespace
-\item \d - any decimal digit, equivalent of [0-9]
-\item \D - everything but decimal digit, equivalent of [^0-9]
-\item \w - any alphanumeric: [a-zA-Z0-9_]
-\item \W - any non-alpahnumeric: [^a-zA-Z0-9_]
-\item \s - any whitespace character: [ \t\n\r\f\v] (space, tab, newline, return, ..., ...)
-\item \S - any non-whitespace character: [^ \t\n\r\f\v]
+\begin{itemize}
+\item \\d - any decimal digit, equivalent of [0-9]
+\item \\D - everything but decimal digit, equivalent of [\textasciicircum{}0-9]
+\item \\w - any alphanumeric: \[a-zA-Z0-9_\]
+\item \\W - any non-alpahnumeric: \[\textasciicircum{}a-zA-Z0-9_\]
+\item \\s - any whitespace character: \[ \\t\\n\\r\\f\\v\] (space, tab, newline, return, ..., ...)
+\item \\S - any non-whitespace character: \[\textasciicircum{} \\t\\n\\r\\f\\v]
 
-\item \t -- tab character (ASCII 0x09),
-\item \r -- carriage return (0x0D),
-\item \n -- line feed (0x0A),
-\item \a (bell, 0x07),
-\item \e (escape, 0x1B),
-\item \f (form feed, 0x0C),
-\item \v (vertical tab, 0x0B)
-NOTE! Remember that Windows text files use \r\n to terminate lines, while UNIX text files use \n.
+\item \\t -- tab character (ASCII 0x09),
+\item \\r -- carriage return (0x0D),
+\item \\n -- line feed (0x0A),
+\item \\a (bell, 0x07),
+\item \\e (escape, 0x1B),
+\item \\f (form feed, 0x0C),
+\item \\v (vertical tab, 0x0B)
+NOTE! Remember that Windows text files use \\r\\n to terminate lines, while UNIX text files use \\n.
+\end{itemize}
 \end{frame}
 
 \subsubsection{Dot - '.'}
@@ -237,5 +245,6 @@ Python Docs: Library re: https://docs.python.org/2/library/re.html
 Google for Education. Python Regular Expressions: https://developers.google.com/edu/python/regular-expressions?hl=en
 Non-printable Characters: http://www.regular-expressions.info/nonprint.html
 Core Python Applications programming: Regular expressions: http://www.informit.com/articles/article.aspx?p=1707750&seqNum=2
+Brief history by Staffan Noteberg: http://blog.staffannoteberg.com/
 \end{frame}
 \end{document}
