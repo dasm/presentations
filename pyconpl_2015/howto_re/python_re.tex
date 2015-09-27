@@ -110,34 +110,41 @@ re language is relatively small and restricted
 
 \section{Simple patterns}
 \subsection{Metacharacters}
-\begin{frame}
-. \textasciicircum{} \$ * + ? \{ \} [ ] \textbackslash{} $\vert$ ( )
+\begin{frame}[fragile]
+\begin{verbatim}
+. ^ $ * + ? { } [ ] \ | ( )
+\end{verbatim}
 \end{frame}
 
 \subsubsection{Class}
-\begin{frame}
-`\[ \]` \\
+\begin{frame}[fragile]
+\begin{verbatim}
+[ ]
+\end{verbatim}
 Specifying a character class, which is set of characters that you wish to match
  \begin{itemize}
-  \item can be listed individually `[abc]`
-  \item can be given as range of characters, separated by '-' `[a-c]`
+  \item can be listed individually \verb/[abc]/
+  \item can be given as range of characters, separated by '-' \verb/[a-c]/
  \end{itemize}
 \pause
 Metacharacters are not active inside class \\
-\[akm\$\] will match any of: "a", "k", "m", "\$"
+\verb/[akm$]/ will match any of: "a", "k", "m", "\$"
 \end{frame}
 
 \subsubsection{Complementing set}
-\begin{frame}
-[\textasciicircum{}]
-[\text{\textasciicircum{}}5]
-Including '\textasciicircum{}' as first character of the class: \[\text{\textasciicircum{}5}\] will match any except '5'
+\begin{frame}[fragile]
+\begin{verbatim}
+^
+\end{verbatim}
+Including \verb/^/ as first character of the class \verb/[^5]/ will match any except '5'
 \end{frame}
 
-\subsubsection{Backslash}
-\begin{frame}
-* escape metacharacters
-For matching "[" or "\\" you can use "\\[" or "\\\\"
+\subsubsection{Backslash - escape metacharacters}
+\begin{frame}[fragile]
+\begin{verbatim}
+\
+\end{verbatim}
+For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/
 \end{frame}
 
 \begin{frame}
