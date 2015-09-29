@@ -145,57 +145,61 @@ Including \verb/^/ as first character of the class \verb/[^5]/ will match any ex
 \
 \end{verbatim}
 For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/
+\pause
+Some of special sequences beginning with \verb/\/ express predefined sets of characters: set of digits, letters, everything but whitespace
 \end{frame}
 
-\begin{frame}
-* express predefined sets of characters: set of digits, letters, everything but whitespace
+\begin{frame}[fragile]
 \begin{itemize}
-\item \\d - any decimal digit, equivalent of [0-9]
-\item \\D - everything but decimal digit, equivalent of [\textasciicircum{}0-9]
-\item \\w - any alphanumeric: \[a-zA-Z0-9_\]
-\item \\W - any non-alpahnumeric: \[\textasciicircum{}a-zA-Z0-9_\]
-\item \\s - any whitespace character: \[ \\t\\n\\r\\f\\v\] (space, tab, newline, return, ..., ...)
-\item \\S - any non-whitespace character: \[\textasciicircum{} \\t\\n\\r\\f\\v]
+\item \verb/\d/ - any decimal digit, equivalent of \verb/[0-9]/
+\item \verb/\D/ - everything but decimal digit, equivalent of \verb/[^0-9]/
+\pause
+\item \verb/\w/ - any alphanumeric: \verb/[a-zA-Z0-9_]/
+\item \verb/\W/ - any non-alpahnumeric: \verb/[^a-zA-Z0-9_]/
+\pause
+\item \verb/\s/ - any whitespace character: \verb/[ \t\n\r\f\v]/ \\ (space, tab (ASCII 0x09), newline (0x0A), return (0x0D), form feed - page break(0x0C), vertical tab (0x0B))
+\item \verb/\S/ - any non-whitespace character: \verb/[^ \t\n\r\f\v]/
 
-\item \\t -- tab character (ASCII 0x09),
-\item \\r -- carriage return (0x0D),
-\item \\n -- line feed (0x0A),
-\item \\a (bell, 0x07),
-\item \\e (escape, 0x1B),
-\item \\f (form feed, 0x0C),
-\item \\v (vertical tab, 0x0B)
-NOTE! Remember that Windows text files use \\r\\n to terminate lines, while UNIX text files use \\n.
+NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while UNIX text files use \verb/\n/.
 \end{itemize}
 \end{frame}
 
 \subsubsection{Dot - '.'}
 \begin{frame}
+\begin{verbatim}
+.
+\end{verbatim}
 By default, matches anything except newline character.
 There is alternate mode (re.DOTALL) where it matches everything. Used when it's needed to match "any character"
 \end{frame}
 
 \subsection{Repeating Things}
-\subsubsection{Star -- "*"}
+\subsubsection{Star - "*"}
+\begin{verbatim}
+*
+\end{verbatim}
 \begin{frame}
 Doesn't match a character. Specifies that previous character can be matched zero or more times.
+\begin{verbatim}
 (ca*t) --> "ct", "cat", "caaat"
-NOTE! RE engine has limitations steeming from the size of C's "int" type that will prevent it from matching over 2 billion "a" characters (2GB).
+\end{verbatim}
+NOTE! RE engine has limitations stemming from the size of C's \verb/int/ type that will prevent it from matching over 2 billion \verb/a/ characters (2GB).
 \end{frame}
 
 \begin{frame}
-* is greedy -- will try to repeat it as many times as possible
-
-a[bcd]*b
-Matches "a", zero or more letters from "bcd", and ends with "b"
-"abcbd"
-1. Matched "a"
-2. Tries to match "abcbd" because of [bcd]* to the end of the string
-3. Fails because current position is the end of the string, so cannot match "b"
-4. "abcb" -- matches one less character
-5. Fails, tries again "b" but current position is "d"
-6. "abc", so [bcd]* matches only "bc"
-7. "abcb", tries last character "b", and it's on current position
-8. Success
+\verb/*/ is greedy -- will try to repeat it as many times as possible \\
+\verb/a[bcd]*b/ - matches \verb/a/, zero or more letters from \verb/bcd/, and ends with \verb/b/ \\
+\verb/abcbd/
+\begin{itemize}
+\item matches \verb/a/
+\item matches \verb/abcbd/ to the end of the string
+\item fails, because current position is the end of the string, so cannot match \verb/b/
+\item matches \verb/abcb/ - one less character
+\item fails, because current position is \verb/d/, so cannot match \verb/b/
+\item matches \verb/abc/, so \verb/[bcd]*/ matches only \verb/bc/
+\item \verb/abcb/, tries last character \verb/b/, and it's on current position
+\item success
+\end{itemize}
 \end{frame}
 
 \subsubsection{Plus -- "+"}
