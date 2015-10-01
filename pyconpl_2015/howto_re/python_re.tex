@@ -291,22 +291,30 @@ Matches either once or zero times
 \begin{verbatim}
 (home-?brew) --> "homebrew", "home-brew"
 \end{verbatim}
-\pause
-NOTE! RE engine has limitations stemming from the size of C's \verb/int/ type that will prevent it from matching over 2 billion \verb/a/ characters (2GB).
 \end{frame}
 
 \begin{frame}[fragile]
-\verb/*/, \verb/+/ and \verb/?/ are greedy -- will try to repeat it as many times as possible \\
+\verb/*/, \verb/+/ and \verb/?/ are greedy -- will try to repeat it as many times as possible (re engine can match only 2 billion characters (2GB) -- C \verb/int/ limitation). \\
+\pause
 \verb/a[bcd]*b/ - matches \verb/a/, zero or more letters from \verb/bcd/, and ends with \verb/b/ \\
+\pause
 \verb/abcbd/
+\pause
 \begin{itemize}
 \item matches \verb/a/
+\pause
 \item matches \verb/abcbd/ to the end of the string
+\pause
 \item fails, because current position is the end of the string, so cannot match \verb/b/
+\pause
 \item matches \verb/abcb/ - one less character
+\pause
 \item fails, because current position is \verb/d/, so cannot match \verb/b/
+\pause
 \item matches \verb/abc/, so \verb/[bcd]*/ matches only \verb/bc/
+\pause
 \item \verb/abcb/, tries last character \verb/b/, and it's on current position
+\pause
 \item success
 \end{itemize}
 \end{frame}
@@ -341,7 +349,7 @@ Some of special sequences beginning with \verb/\/ express predefined sets of cha
 \pause
 \item \verb/\s/ - any whitespace character: \verb/[ \t\n\r\f\v]/ \\ (space, tab (ASCII 0x09), newline (0x0A), return (0x0D), form feed - page break(0x0C), vertical tab (0x0B))
 \item \verb/\S/ - any non-whitespace character: \verb/[^ \t\n\r\f\v]/
-\\  
+\pause \\
 NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while UNIX text files use \verb/\n/.
 \end{itemize}
 \end{frame}
@@ -371,7 +379,7 @@ Solution - raw string
 \begin{tabular}{ | l | p{7cm} |}
 \hline
 Regular string & Raw string \\ \hline
-\verb/"ab*"/ & \verb/"ab*"/ \\
+\verb/"ab*"/ & \verb/r"ab*"/ \\
 \verb/"\\\\section"/ & \verb/r"\\section"/ \\
 \verb/"\\w+\\s+\\1"/ & \verb/r"\w+\s+\1"/ \\
 \hline
