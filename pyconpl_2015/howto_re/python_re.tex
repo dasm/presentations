@@ -89,10 +89,12 @@ Answer for questions:
 
 \section{Under the hood}
 \subsection{Implementation / Features}
-\begin{frame}
+\begin{frame}[fragile]
+ re is handled as string  - there is no special syntax for expressing it (advantage and disadvantage) \\
+ \pause
  re patterns are compiled into bytecode \\
  \pause
- executed by engine written in C \\
+ re module is a C extension module (like \verb/socket/ or \verb/zlib/) \\
  \pause
  re language is relatively small and restricted
  \pause
@@ -249,6 +251,76 @@ Metacharacters are not active inside class \\
 Including \verb/^/ as first character of the class \verb/[^5]/ will match any except '5'
 \end{frame}
 
+\subsubsection{Dot - '.'}
+\begin{frame}[fragile]
+\begin{verbatim}
+.
+\end{verbatim}
+By default, matches anything except newline character. \\
+\pause
+There is alternate mode (re.DOTALL) where it matches everything. Used when it's needed to match "any character"
+\end{frame}
+
+\subsection{Repeating Things}
+\subsubsection{*, +, ?}
+\begin{frame}[fragile]
+\begin{verbatim}
+*
+\end{verbatim}
+Doesn't match a character. Specifies that previous character can be matched zero or more times.
+\begin{verbatim}
+(ca*t) --> "ct", "cat", "caaat"
+\end{verbatim}
+\pause
+\begin{verbatim}
++
+\end{verbatim}
+Similar to \verb/*/, but requires at least one occurence of character
+\begin{verbatim}
+(ca+t) --> "cat", "caaat", not "ct"
+\end{verbatim}
+\pause
+\begin{verbatim}
+?
+\end{verbatim}
+Matches either once or zero times
+\begin{verbatim}
+(ca?t) --> "ct", "cat", not "caaat"
+\end{verbatim}
+\pause
+\begin{verbatim}
+(home-?brew) --> "homebrew", "home-brew"
+\end{verbatim}
+\pause
+NOTE! RE engine has limitations stemming from the size of C's \verb/int/ type that will prevent it from matching over 2 billion \verb/a/ characters (2GB).
+\end{frame}
+
+\begin{frame}[fragile]
+\verb/*/, \verb/+/ and \verb/?/ are greedy -- will try to repeat it as many times as possible \\
+\verb/a[bcd]*b/ - matches \verb/a/, zero or more letters from \verb/bcd/, and ends with \verb/b/ \\
+\verb/abcbd/
+\begin{itemize}
+\item matches \verb/a/
+\item matches \verb/abcbd/ to the end of the string
+\item fails, because current position is the end of the string, so cannot match \verb/b/
+\item matches \verb/abcb/ - one less character
+\item fails, because current position is \verb/d/, so cannot match \verb/b/
+\item matches \verb/abc/, so \verb/[bcd]*/ matches only \verb/bc/
+\item \verb/abcb/, tries last character \verb/b/, and it's on current position
+\item success
+\end{itemize}
+\end{frame}
+
+\subsubsection{"{m,n}"}
+\begin{frame}[fragile]
+\verb/m/ and \verb/n/ are decimal numbers. There must be at least m repetitions, and at most n.
+\begin{verbatim}
+a/{1,3}b --> a/b, a//b, a///b
+\end{verbatim}
+\pause
+\verb/m/ and \verb/n/ can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
+\end{frame}
+
 \subsubsection{Backslash - escape metacharacters}
 \begin{frame}[fragile]
 \begin{verbatim}
@@ -274,75 +346,36 @@ NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while
 \end{itemize}
 \end{frame}
 
-\subsubsection{Dot - '.'}
+\subsection{"Backslash Plague" problem}
 \begin{frame}[fragile]
-\begin{verbatim}
-.
-\end{verbatim}
-By default, matches anything except newline character. \\
-\pause
-There is alternate mode (re.DOTALL) where it matches everything. Used when it's needed to match "any character"
-\end{frame}
-
-\subsection{Repeating Things}
-\subsubsection{Star - "*"}
-\begin{frame}[fragile]
-\begin{verbatim}
-*
-\end{verbatim}
-Doesn't match a character. Specifies that previous character can be matched zero or more times.
-\begin{verbatim}
-(ca*t) --> "ct", "cat", "caaat"
-\end{verbatim}
-NOTE! RE engine has limitations stemming from the size of C's \verb/int/ type that will prevent it from matching over 2 billion \verb/a/ characters (2GB).
-\end{frame}
-
-\begin{frame}[fragile]
-\verb/*/ is greedy -- will try to repeat it as many times as possible \\
-\verb/a[bcd]*b/ - matches \verb/a/, zero or more letters from \verb/bcd/, and ends with \verb/b/ \\
-\verb/abcbd/
 \begin{itemize}
-\item matches \verb/a/
-\item matches \verb/abcbd/ to the end of the string
-\item fails, because current position is the end of the string, so cannot match \verb/b/
-\item matches \verb/abcb/ - one less character
-\item fails, because current position is \verb/d/, so cannot match \verb/b/
-\item matches \verb/abc/, so \verb/[bcd]*/ matches only \verb/bc/
-\item \verb/abcb/, tries last character \verb/b/, and it's on current position
-\item success
+\item re is handled as string
+\item one of \verb/re/ metacharacters is \verb/\/
+\item backslash for escaping in \verb/re/ conflicts with the same purpose in Python
 \end{itemize}
 \end{frame}
 
-\subsubsection{Plus -- "+"}
 \begin{frame}[fragile]
-\begin{verbatim}
-+
-\end{verbatim}
-Similar to "*", but requires at least one occurence of character
-\begin{verbatim}
-(ca+t) --> "cat", "caaat" but not "ct"
-\end{verbatim}
-\end{frame}
-
-\subsubsection{Quotation mark -- "?"}
-\begin{frame}[fragile]
-\begin{verbatim}
-?
-\end{verbatim}
-Matches either once or zero times
-\begin{verbatim}
-(home-?brew) --> "homebrew", "home-brew"
-\end{verbatim}
-\end{frame}
-
-\subsubsection{"{m,n}"}
-\begin{frame}[fragile]
-\verb/m/ and \verb/n/ are decimal numbers. There must be at least m repetitions, and at most n.
-\begin{verbatim}
-a/{1,3}b --> a/b, a//b, a///b
-\end{verbatim}
+\begin{tabular}{ | l | p{7cm} |}
+\hline
+Characters & Stage \\ \hline
+\verb/\section/ & Text string to be matched \\
+\verb/\\section/ & Escaped backslash for \verb/re.compile()/ \\
+\verb/"\\\\section"/ & Escaped backslashes for a string literal \\
+\hline
+\end{tabular}
 \pause
-\verb/m/ and \verb/n/ can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
+re string needs to be written as \verb/"\\\\"/ because regular expression must be \verb/\\/ and each must be escaped \verb/\\/ inside a regular Python string literal.
+\pause
+Solution - raw string
+\begin{tabular}{ | l | p{7cm} |}
+\hline
+Regular string & Raw string \\ \hline
+\verb/"ab*"/ & \verb/"ab*"/ \\
+\verb/"\\\\section"/ & \verb/r"\\section"/ \\
+\verb/"\\w+\\s+\\1"/ & \verb/r"\w+\s+\1"/ \\
+\hline
+\end{tabular}
 \end{frame}
 
 \subsubsection{Equivalents}
@@ -355,31 +388,6 @@ a/{1,3}b --> a/b, a//b, a///b
 \end{frame}
 
 \section{Regular Expressions}
-\begin{frame}
-REs are handled as strings because regular expressions aren’t part of the core Python language, and no special syntax was created for expressing them. \\
-(There are applications that don’t need REs at all, so there’s no need to bloat the language specification by including them.) \\ 
-Instead, the re module is simply a C extension module included with Python, just like the socket or zlib modules. \\
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{verbatim}
-Backslash Plague
-
-Characters	Stage
-\section	Text string to be matched
-\\section	Escaped backslash for re.compile()
-"\\\\section"	Escaped backslashes for a string literal
-
-to match a literal backslash, one has to write '\\\\' as the RE string, because the regular expression must be \\, and each backslash must be expressed as \\ inside a regular Python string literal.
-
-Solution
-Regular String	Raw string
-"ab*"	r"ab*"
-"\\\\section"	r"\\section"
-"\\w+\\s+\\1"	r"\w+\s+\1"
-\end{verbatim}
-\end{frame}
-
 
 \section{Bibliography}
 \begin{frame}
