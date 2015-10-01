@@ -329,7 +329,16 @@ a/{1,3}b --> a/b, a//b, a///b
 \verb/m/ and \verb/n/ can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
 \end{frame}
 
-\subsubsection{Backslash - escape metacharacters}
+\subsection{Equivalents}
+\begin{frame}[fragile]
+\begin{verbatim}
+{0,} == "*"
+{1,} == "+"
+{,1} == {0,1} == "?"
+\end{verbatim}
+\end{frame}
+
+\subsection{Backslash - escape metacharacters}
 \begin{frame}[fragile]
 \begin{verbatim}
 \
@@ -384,15 +393,6 @@ Regular string & Raw string \\ \hline
 \verb/"\\w+\\s+\\1"/ & \verb/r"\w+\s+\1"/ \\
 \hline
 \end{tabular}
-\end{frame}
-
-\subsubsection{Equivalents}
-\begin{frame}[fragile]
-\begin{verbatim}
-{0,} == "*"
-{1,} == "+"
-{,1} == {0,1} == "?"
-\end{verbatim}
 \end{frame}
 
 \section{Regular Expressions}
