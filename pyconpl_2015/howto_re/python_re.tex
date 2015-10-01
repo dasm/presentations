@@ -104,6 +104,7 @@ Answer for questions:
  \end{itemize}
 \end{frame}
 
+\subsection{Regex Example}
 \begin{frame}[fragile]
 \begingroup
  \fontsize{6pt}{8pt}\selectfont
@@ -293,6 +294,7 @@ Matches either once or zero times
 \end{verbatim}
 \end{frame}
 
+\subsection{Greedy}
 \begin{frame}[fragile]
 \verb/*/, \verb/+/ and \verb/?/ are greedy -- will try to repeat it as many times as possible (re engine can match only 2 billion characters (2GB) -- C \verb/int/ limitation). \\
 \pause
@@ -318,6 +320,8 @@ Matches either once or zero times
 \item success
 \end{itemize}
 \end{frame}
+
+\subsection{Non-greedy}
 
 \subsubsection{"{m,n}"}
 \begin{frame}[fragile]
