@@ -73,35 +73,29 @@ Release of Python 1.5
 \end{frame}
 
 \section{Do I need it?}
-\subsection{Matching}
+\subsection{Matching / Modifying}
 \begin{frame}
 Answer for questions:
  \begin{itemize}
   \item "Does this string match the pattern?"
   \item "Is there a match for the pattern anywhere in this string?"
  \end{itemize}
-\end{frame}
-
-\subsection{Modifying}
-\begin{frame}
-\begin{itemize}
-\item Replace part of it
-\item Split into pieces
-\end{itemize}
+ \pause
+ \begin{itemize}
+  \item Replace part of it
+  \item Split into pieces
+ \end{itemize}
 \end{frame}
 
 \section{Under the hood}
-\subsection{Implementation}
+\subsection{Implementation / Features}
 \begin{frame}
- \structure{\insertsubsection}
-re patterns are compiled into bytecode \\
-\pause
-executed by engine written in C
-
-\subsection{Features}
- \structure{\insertsubsection}
-re language is relatively small and restricted
-\pause
+ re patterns are compiled into bytecode \\
+ \pause
+ executed by engine written in C \\
+ \pause
+ re language is relatively small and restricted
+ \pause
  \begin{itemize}
   \item not all possible string processing tasks can be done
   \item some of them can be done, but expression would be very complicated
@@ -260,7 +254,7 @@ Including \verb/^/ as first character of the class \verb/[^5]/ will match any ex
 \begin{verbatim}
 \
 \end{verbatim}
-For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/
+For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/ \\
 \pause
 Some of special sequences beginning with \verb/\/ express predefined sets of characters: set of digits, letters, everything but whitespace
 \end{frame}
@@ -275,7 +269,7 @@ Some of special sequences beginning with \verb/\/ express predefined sets of cha
 \pause
 \item \verb/\s/ - any whitespace character: \verb/[ \t\n\r\f\v]/ \\ (space, tab (ASCII 0x09), newline (0x0A), return (0x0D), form feed - page break(0x0C), vertical tab (0x0B))
 \item \verb/\S/ - any non-whitespace character: \verb/[^ \t\n\r\f\v]/
-\\
+\\  
 NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while UNIX text files use \verb/\n/.
 \end{itemize}
 \end{frame}
@@ -285,7 +279,7 @@ NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while
 \begin{verbatim}
 .
 \end{verbatim}
-By default, matches anything except newline character.
+By default, matches anything except newline character. \\
 \pause
 There is alternate mode (re.DOTALL) where it matches everything. Used when it's needed to match "any character"
 \end{frame}
@@ -320,10 +314,10 @@ NOTE! RE engine has limitations stemming from the size of C's \verb/int/ type th
 \end{frame}
 
 \subsubsection{Plus -- "+"}
+\begin{frame}[fragile]
 \begin{verbatim}
 +
 \end{verbatim}
-\begin{frame}[fragile]
 Similar to "*", but requires at least one occurence of character
 \begin{verbatim}
 (ca+t) --> "cat", "caaat" but not "ct"
@@ -343,12 +337,12 @@ Matches either once or zero times
 
 \subsubsection{"{m,n}"}
 \begin{frame}[fragile]
-"m" and "n" are decimal numbers. There must be at least m repetitions, and at most n.
+\verb/m/ and \verb/n/ are decimal numbers. There must be at least m repetitions, and at most n.
 \begin{verbatim}
 a/{1,3}b --> a/b, a//b, a///b
 \end{verbatim}
 \pause
-m and n can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
+\verb/m/ and \verb/n/ can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
 \end{frame}
 
 \subsubsection{Equivalents}
@@ -389,11 +383,16 @@ Regular String	Raw string
 
 \section{Bibliography}
 \begin{frame}
-Regular Expression HOWTO: \url{https://docs.python.org/2/howto/regex.html}
-Python Docs: Library re: \url{https://docs.python.org/2/library/re.html}
-Google for Education. Python Regular Expressions: \url{https://developers.google.com/edu/python/regular-expressions?hl=en}
-Non-printable Characters: \url{http://www.regular-expressions.info/nonprint.html}
-Core Python Applications programming: Regular expressions: \url{http://www.informit.com/articles/article.aspx?p=1707750&seqNum=2}
-Brief history by Staffan Noteberg: \url{http://blog.staffannoteberg.com/}
+\begingroup
+ \fontsize{6pt}{8pt}\selectfont
+\begin{itemize}
+\item Regular Expression HOWTO: \url{https://docs.python.org/2/howto/regex.html}
+\item Python Docs: Library re: \url{https://docs.python.org/2/library/re.html}
+\item Google for Education. Python Regular Expressions: \url{https://developers.google.com/edu/python/regular-expressions?hl=en}
+\item Non-printable Characters: \url{http://www.regular-expressions.info/nonprint.html}
+\item Core Python Applications programming: Regular expressions: \url{http://www.informit.com/articles/article.aspx?p=1707750&seqNum=2}
+\item Brief history by Staffan Noteberg: \url{http://blog.staffannoteberg.com/}
+\end{itemize}
+\endgroup
 \end{frame}
 \end{document}
