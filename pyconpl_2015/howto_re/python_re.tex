@@ -255,7 +255,7 @@ Metacharacters are not active inside class \\
 
 \subsubsection{Complementing set}
 \begin{frame}[fragile]
-\verb/^/
+\verb/^/ - complementing set
 \begin{lstlisting}
 >>> import re
 >>> re.findall("[^5]", "456")
@@ -266,44 +266,45 @@ Metacharacters are not active inside class \\
 
 \subsubsection{Dot - '.'}
 \begin{frame}[fragile]
-\begin{verbatim}
-.
-\end{verbatim}
-By default, matches anything except newline character. \\
+\verb/./ - dot
+\begin{lstlisting}
+>>> import re
+>>> text = """From the beginning,
+... in the middle,
+... and for the end."""
+>>> regex = re.compile(".+$")
+>>> regex.findall(text)
+['and for the end.']
+\end{lstlisting}
 \pause
-There is alternate mode (re.DOTALL) where it matches everything. Used when it's needed to match "any character"
+There is compilation flag, which changes default behavior.
 \end{frame}
 
 \subsection{Repeating Things}
 \subsubsection{*, +, ?}
 \begin{frame}[fragile]
-\begin{verbatim}
-*
-\end{verbatim}
-Doesn't match a character. Specifies that previous character can be matched zero or more times.
-\begin{verbatim}
-(ca*t) --> "ct", "cat", "caaat"
-\end{verbatim}
+\verb/*/ - star. Specifies that previous character can be matched zero or more times.
+\begin{lstlisting}
+>>> re.findall("ca*t", "ct, cat, caat")
+['ct', 'cat', 'caat']
+\end{lstlisting}
 \pause
-\begin{verbatim}
-+
-\end{verbatim}
-Similar to \verb/*/, but requires at least one occurence of character
-\begin{verbatim}
-(ca+t) --> "cat", "caaat", not "ct"
-\end{verbatim}
+\verb/+/ - plus. Similar to \verb/*/, but requires at least one occurence of character.
+\begin{lstlisting}
+>>> re.findall("ca+t", "ct, cat, caat")
+['cat', 'caat']
+\end{lstlisting}
 \pause
-\begin{verbatim}
-?
-\end{verbatim}
-Matches either once or zero times
-\begin{verbatim}
-(ca?t) --> "ct", "cat", not "caaat"
-\end{verbatim}
+\verb/?/ - question mark. Matches either once or zero times
+\begin{lstlisting}
+>>> re.findall("ca?t", "ct, cat, caat")
+['ct', 'cat']
+\end{lstlisting}
 \pause
-\begin{verbatim}
-(home-?brew) --> "homebrew", "home-brew"
-\end{verbatim}
+\begin{lstlisting}
+>>> re.findall("home-?brew", "homebrew, home-brew")
+['homebrew', 'home-brew']
+\end{lstlisting}
 \end{frame}
 
 \subsubsection{"{m,n}"}
