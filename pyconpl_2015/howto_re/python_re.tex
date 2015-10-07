@@ -266,7 +266,7 @@ Metacharacters are not active inside class \\
 
 \subsubsection{Dot - '.'}
 \begin{frame}[fragile]
-\verb/./ - dot
+\verb/./ - dot. Matches anything except a newline character
 \begin{lstlisting}
 >>> import re
 >>> text = """From the beginning,
@@ -384,7 +384,7 @@ src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
 
 \subsection{Backslash - escape metacharacters}
 \begin{frame}[fragile]
-\verb/\/ - backslash (escape metacharacters)
+\verb/\/ - backslash (escape metacharacters) \\
 For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/ \\
 \pause
 Some of special sequences beginning with \verb/\/ express predefined sets of characters: set of digits, letters, everything but whitespace
@@ -424,7 +424,7 @@ Characters & Stage \\ \hline
 \hline
 \end{tabular}
 \pause
-re string needs to be written as \verb/"\\\\"/ because regular expression must be \verb/\\/ and each must be escaped \verb/\\/ inside a regular Python string literal.
+re string needs to be written as \verb/"\\\\"/ because regular expression must be \verb/\\/ and each must be escaped \verb/\\/ inside a regular Python string literal. \\
 \pause
 Solution - raw string
 \begin{tabular}{ | l | p{7cm} |}
