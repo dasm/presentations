@@ -236,25 +236,32 @@ Perl regex to validate email addresses according to the RFC 822
 
 \subsubsection{Class}
 \begin{frame}[fragile]
-\begin{verbatim}
-[ ]
-\end{verbatim}
-Specifying a character class, which is set of characters that you wish to match
- \begin{itemize}
-  \item can be listed individually \verb/[abc]/
-  \item can be given as range of characters, separated by '-' \verb/[a-c]/
- \end{itemize}
+\verb/[ ]/ - class
+\begin{lstlisting}
+>>> import re
+>>> re.findall("[def]", "abcdefghi")
+['d', 'e', 'f']
+>>> re.findall("[d-f]", "abcdefghi")
+['d', 'e', 'f']
+>>>
+\end{lstlisting}
 \pause
 Metacharacters are not active inside class \\
-\verb/[akm$]/ will match any of: "a", "k", "m", "\$"
+\begin{lstlisting}
+>>> re.findall("[d-f$]", "abcdefg$hi")
+['d', 'e', 'f', '$']
+\end{lstlisting}
 \end{frame}
 
 \subsubsection{Complementing set}
 \begin{frame}[fragile]
-\begin{verbatim}
-^
-\end{verbatim}
-Including \verb/^/ as first character of the class \verb/[^5]/ will match any except '5'
+\verb/^/
+\begin{lstlisting}
+>>> import re
+>>> re.findall("[^5]", "456")
+['4', '6']
+>>>
+\end{lstlisting}
 \end{frame}
 
 \subsubsection{Dot - '.'}
@@ -354,22 +361,15 @@ a/{1,3}b --> a/b, a//b, a///b
 \pause
 
 \begin{lstlisting}
-In [1]: import re
-
-In [2]: greedy_re = re.compile("<.*>")
-
-In [3]: text = "<html><head><title>Title</title></head></html>"
-
-In [4]: greedy_re.findall(text)
-Out[4]: ['<html><head><title>Title</title></head></html>']
-\end{lstlisting}
-\pause
-
-\begin{lstlisting}
-In [5]: non_greedy_re = re.compile("<.*?>")
-
-In [6]: non_greedy_re.findall(text)
-Out[6]: ['<html>', '<head>', '<title>', '</title>', '</head>', '</html>']
+>>> import re
+>>> text = "<html><head><title>Title</title></head></html>"
+>>> greedy_regex = re.compile("<.*>")
+>>> greedy_regex.findall(text)
+['<html><head><title>Title</title></head></html>']
+>>> non_greedy_regex = re.compile("<.*?>")
+>>> non_greedy_regex.findall(text)
+['<html>', '<head>', '<title>', '</title>', '</head>', '</html>']
+>>>
 \end{lstlisting}
 
 \end{frame}
@@ -434,29 +434,29 @@ Regular string & Raw string \\ \hline
 \section{Regular Expressions}
 \subsection{Compilation}
 \begin{frame}[fragile]
-    \verb|dasm@hell:~$ python3|
-    \begin{lstlisting}
-    >>> import re
-    >>> regex = re.compile('[a-zA-z0-9]+')
-    >>> regex
-    re.compile('[a-zA-z0-9]+')
-    >>> regex.findall('Search test')
-    ['Search', 'test']
-    >>>
-    \end{lstlisting}
+\verb|dasm@hell:~$ python3|
+\begin{lstlisting}
+>>> import re
+>>> regex = re.compile('[a-zA-z0-9]+')
+>>> regex
+re.compile('[a-zA-z0-9]+')
+>>> regex.findall('Search test')
+['Search', 'test']
+>>>
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
-    \verb|dasm@hell:~$ python3|
-    \begin{lstlisting}
-    >>> import re
-    >>> regex = re.compile('[a-zA-z0-9]+')
-    >>> regex
-    re.compile('[a-zA-z0-9]+')
-    >>> re.findall(regex, 'Search test 03')
-    ['Search', 'test', '03']
-    >>>
-    \end{lstlisting}
+\verb|dasm@hell:~$ python3|
+\begin{lstlisting}
+>>> import re
+>>> regex = re.compile('[a-zA-z0-9]+')
+>>> regex
+re.compile('[a-zA-z0-9]+')
+>>> re.findall(regex, 'Search test 03')
+['Search', 'test', '03']
+>>>
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
