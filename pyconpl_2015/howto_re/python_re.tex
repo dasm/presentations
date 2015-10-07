@@ -432,6 +432,50 @@ Regular string & Raw string \\ \hline
 \end{frame}
 
 \section{Regular Expressions}
+\subsection{Compilation}
+\begin{frame}[fragile]
+    \verb|dasm@hell:$ python3|
+    \begin{lstlisting}
+    >>> import re
+    >>> regex = re.compile('[a-zA-z0-9]+')
+    >>> regex
+    re.compile('[a-zA-z0-9]+')
+    >>> regex.findall('Search test')
+    ['Search', 'test']
+    >>>
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \verb|dasm@hell:$ python3|
+    \begin{lstlisting}
+    >>> import re
+    >>> regex = re.compile('[a-zA-z0-9]+')
+    >>> regex
+    re.compile('[a-zA-z0-9]+')
+    >>> re.findall(regex, 'Search test 03')
+    ['Search', 'test', '03']
+    >>>
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \verb|dasm@hell:$ python3|
+    \begin{lstlisting}
+    >>> import re
+    >>> re.findall('[a-zA-Z0-9]+', 'Search test 02')
+    ['Search', 'test']
+    >>>
+    \end{lstlisting}
+\end{frame}
+
+\subsection{Compilation Flags}
+\begin{frame}[fragile]
+\end{frame}
+
+\subsection{Performing Matches}
+\begin{frame}[fragile]
+\end{frame}
 
 \section{Bibliography}
 \begin{frame}
