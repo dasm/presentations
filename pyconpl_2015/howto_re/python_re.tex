@@ -384,9 +384,7 @@ src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
 
 \subsection{Backslash - escape metacharacters}
 \begin{frame}[fragile]
-\begin{verbatim}
-\
-\end{verbatim}
+\verb/\/ - backslash (escape metacharacters)
 For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/ \\
 \pause
 Some of special sequences beginning with \verb/\/ express predefined sets of characters: set of digits, letters, everything but whitespace
@@ -468,13 +466,13 @@ re.compile('[a-zA-z0-9]+')
 \end{frame}
 
 \begin{frame}[fragile]
-    \verb|dasm@hell:~$ python3|
-    \begin{lstlisting}
-    >>> import re
-    >>> re.findall('[a-zA-Z0-9]+', 'Search test 02')
-    ['Search', 'test']
-    >>>
-    \end{lstlisting}
+\verb|dasm@hell:~$ python3|
+\begin{lstlisting}
+>>> import re
+>>> re.findall('[a-zA-Z0-9]+', 'Search test 02')
+['Search', 'test']
+>>>
+\end{lstlisting}
 \end{frame}
 
 \subsection{Compilation Flags}
@@ -524,7 +522,7 @@ in
 
 \subsubsection{re.MULTILINE}
 \begin{frame}[fragile]
-\verb/re.MUTLILINE, re.M/ \\
+\verb/re.MULTILINE, re.M/ \\
 \begin{lstlisting}
 >>> import re
 >>> text = """From the beginning,
