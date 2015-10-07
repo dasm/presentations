@@ -309,13 +309,11 @@ There is compilation flag, which changes default behavior.
 
 \subsubsection{"{m,n}"}
 \begin{frame}[fragile]
-\begin{verbatim}
-{m,n}
-\end{verbatim}
-\verb/m/ and \verb/n/ are decimal numbers. There must be at least m repetitions, and at most n.
-\begin{verbatim}
-a/{1,3}b --> a/b, a//b, a///b
-\end{verbatim}
+\verb/{m,n}/ - \verb/m/ and \verb/n/ are decimal numbers. There must be at least m repetitions, and at most n.
+\begin{lstlisting}
+>>> re.findall("a/{1,2}b", "ab, a/b, a//b, a///b")
+['a/b', 'a//b']
+\end{lstlisting}
 \pause
 \verb/m/ and \verb/n/ can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
 \end{frame}
@@ -334,9 +332,14 @@ a/{1,3}b --> a/b, a//b, a///b
 \verb/*/, \verb/+/ and \verb/?/ are greedy. Will try to repeat it as many times as possible (re engine can match only 2 billion characters (2GB) -- C \verb/int/ limitation). \\
 \pause
 \verb/a[bcd]*b/ - matches \verb/a/, zero or more letters from \verb/bcd/, and ends with \verb/b/ \\
-\pause
+\begin{center}
+\includegraphics[width=0.5\textwidth]{images/greedy.png}
+\end{center}
+src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
+\end{frame}
+
+\begin{frame}[fragile]
 \verb/abcbd/
-\pause
 \begin{itemize}
 \item matches \verb/a/
 \pause
@@ -354,6 +357,10 @@ a/{1,3}b --> a/b, a//b, a///b
 \pause
 \item success
 \end{itemize}
+\begin{lstlisting}
+>>> re.findall('a[bcd]*b', 'abcbd')
+['abcb']
+\end{lstlisting}
 \end{frame}
 
 \subsection{Non-greedy}
