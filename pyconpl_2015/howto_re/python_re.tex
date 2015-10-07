@@ -434,7 +434,7 @@ Regular string & Raw string \\ \hline
 \section{Regular Expressions}
 \subsection{Compilation}
 \begin{frame}[fragile]
-    \verb|dasm@hell:$ python3|
+    \verb|dasm@hell:~$ python3|
     \begin{lstlisting}
     >>> import re
     >>> regex = re.compile('[a-zA-z0-9]+')
@@ -447,7 +447,7 @@ Regular string & Raw string \\ \hline
 \end{frame}
 
 \begin{frame}[fragile]
-    \verb|dasm@hell:$ python3|
+    \verb|dasm@hell:~$ python3|
     \begin{lstlisting}
     >>> import re
     >>> regex = re.compile('[a-zA-z0-9]+')
@@ -460,7 +460,7 @@ Regular string & Raw string \\ \hline
 \end{frame}
 
 \begin{frame}[fragile]
-    \verb|dasm@hell:$ python3|
+    \verb|dasm@hell:~$ python3|
     \begin{lstlisting}
     >>> import re
     >>> re.findall('[a-zA-Z0-9]+', 'Search test 02')
@@ -470,7 +470,32 @@ Regular string & Raw string \\ \hline
 \end{frame}
 
 \subsection{Compilation Flags}
+\subsubsection{re.DEBUG}
 \begin{frame}[fragile]
+\verb/re.DEBUG/
+\begin{lstlisting}
+>>> import re
+>>> regex = re.compile('[a-z]', re.DEBUG)
+in
+  range (97, 122)
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{re.ASCII}
+\begin{frame}[fragile]
+\verb/re.ASCII/ \\
+\verb/\xa0/ - non-breaking space
+\begin{lstlisting}
+>>> import re
+>>> regex = re.compile("\s+")
+>>> regex.findall("\xa0 ha")
+['\xa0 ']
+>>> regex = re.compile("\s+", re.ASCII)
+>>> regex.findall("\xa0 ha")
+[' ']
+>>>
+\end{lstlisting}
 \end{frame}
 
 \subsection{Performing Matches}
