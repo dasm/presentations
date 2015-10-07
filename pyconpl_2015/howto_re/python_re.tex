@@ -443,11 +443,11 @@ Regular string & Raw string \\ \hline
 \verb|dasm@hell:~$ python3|
 \begin{lstlisting}
 >>> import re
->>> regex = re.compile('[a-zA-z0-9]+')
+>>> regex = re.compile('[a-zA-Z0-9]+')
 >>> regex
-re.compile('[a-zA-z0-9]+')
->>> regex.findall('Search test')
-['Search', 'test']
+re.compile('[a-zA-Z0-9]+')
+>>> regex.findall('Search test 01')
+['Search', 'test', '01']
 >>>
 \end{lstlisting}
 \end{frame}
@@ -456,21 +456,21 @@ re.compile('[a-zA-z0-9]+')
 \verb|dasm@hell:~$ python3|
 \begin{lstlisting}
 >>> import re
->>> regex = re.compile('[a-zA-z0-9]+')
+>>> regex = re.compile('[a-zA-Z0-9]+')
 >>> regex
-re.compile('[a-zA-z0-9]+')
->>> re.findall(regex, 'Search test 03')
+re.compile('[a-zA-Z0-9]+')
+>>> re.findall(regex, 'Search test 02')
+['Search', 'test', '02']
+>>>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\verb|dasm@hell:~$ python3|
+\begin{lstlisting}
+>>> import re
+>>> re.findall('[a-zA-Z0-9]+', 'Search test 03')
 ['Search', 'test', '03']
->>>
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\verb|dasm@hell:~$ python3|
-\begin{lstlisting}
->>> import re
->>> re.findall('[a-zA-Z0-9]+', 'Search test 02')
-['Search', 'test']
 >>>
 \end{lstlisting}
 \end{frame}
