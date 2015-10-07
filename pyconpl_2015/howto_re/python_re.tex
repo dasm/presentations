@@ -484,7 +484,7 @@ in
 
 \subsubsection{re.ASCII}
 \begin{frame}[fragile]
-\verb/re.ASCII/ \\
+\verb/re.ASCII, re.A/ \\
 \verb/\xa0/ - non-breaking space
 \begin{lstlisting}
 >>> import re
@@ -494,6 +494,40 @@ in
 >>> regex = re.compile("\s+", re.ASCII)
 >>> regex.findall("\xa0 ha")
 [' ']
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{re.IGNORECASE}
+\begin{frame}[fragile]
+\verb/re.IGNORECASE, re.I/ \\
+\begin{lstlisting}
+>>> import re
+>>> text = "CamelCase CAPITAL and lower WoRd"
+>>> ignorecase_regex = re.compile("[a-z]+", re.I)
+>>> ignorecase_regex.findall(text)
+['CamelCase', 'CAPITAL', 'and', 'lower', 'WoRd']
+>>> regex = re.compile("[a-z]+")
+>>> regex.findall(text)
+['amel', 'ase', 'and', 'lower', 'o', 'd']
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{re.MULTILINE}
+\begin{frame}[fragile]
+\verb/re.MUTLILINE, re.M/ \\
+\begin{lstlisting}
+>>> import re
+>>> regex = re.compile("^[a-zA-Z]+")
+>>> text = """From the beginning,
+... in the middle,
+... and for the end."""
+>>> regex.findall(text)
+['From']
+>>> multiline_regex = re.compile("^[a-zA-Z]+", re.M)
+>>> multiline_regex.findall(text)
+['From', 'in', 'and']
 >>>
 \end{lstlisting}
 \end{frame}
