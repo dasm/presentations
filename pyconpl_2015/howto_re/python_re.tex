@@ -491,8 +491,8 @@ in
 >>> regex = re.compile("\s+")
 >>> regex.findall("\xa0 ha")
 ['\xa0 ']
->>> regex = re.compile("\s+", re.ASCII)
->>> regex.findall("\xa0 ha")
+>>> ascii_regex = re.compile("\s+", re.ASCII)
+>>> ascii_regex.findall("\xa0 ha")
 [' ']
 >>>
 \end{lstlisting}
@@ -504,12 +504,12 @@ in
 \begin{lstlisting}
 >>> import re
 >>> text = "CamelCase CAPITAL and lower WoRd"
->>> ignorecase_regex = re.compile("[a-z]+", re.I)
->>> ignorecase_regex.findall(text)
-['CamelCase', 'CAPITAL', 'and', 'lower', 'WoRd']
 >>> regex = re.compile("[a-z]+")
 >>> regex.findall(text)
 ['amel', 'ase', 'and', 'lower', 'o', 'd']
+>>> ignorecase_regex = re.compile("[a-z]+", re.I)
+>>> ignorecase_regex.findall(text)
+['CamelCase', 'CAPITAL', 'and', 'lower', 'WoRd']
 >>>
 \end{lstlisting}
 \end{frame}
@@ -519,15 +519,52 @@ in
 \verb/re.MUTLILINE, re.M/ \\
 \begin{lstlisting}
 >>> import re
->>> regex = re.compile("^[a-zA-Z]+")
 >>> text = """From the beginning,
 ... in the middle,
 ... and for the end."""
+>>> regex = re.compile("^[a-zA-Z]+")
 >>> regex.findall(text)
 ['From']
 >>> multiline_regex = re.compile("^[a-zA-Z]+", re.M)
 >>> multiline_regex.findall(text)
 ['From', 'in', 'and']
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{re.DOTALL}
+\begin{frame}[fragile]
+\verb/re.DOTALL, re.S/ \\
+\begin{lstlisting}
+>>> import re
+>>> text = """From the beginnin,
+... in the middle,
+... and for the end."""
+>>> regex = re.compile(".+$")
+>>> regex.findall(text)
+['and for the end.']
+>>> dotall_rregex = re.compile(".+$", re.S)
+>>> dotall_regex.findall(text)
+['From the beginnin,\nin the middle,\nand for the end.']
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{re.VERBOSE}
+\begin{frame}[fragile]
+\verb/re.VERBOSE, re.X/ \\
+\begin{lstlisting}
+>>> import re
+>>> numbers = "127.2, 15.30, 73"
+>>> regex = re.compile(r"\d+\.?\d*")
+>>> regex.findall(numbers)
+['127.2', '15.30', '73']
+>>> verbose_regex = re.compile(r"""
+        \d +  # the integral part
+        \. ?  # the decimal point
+        \d *  # some fractional digits""", re.X)
+>>> verbose_regex.findall(numbers)
+['127.2', '15.30', '73']
 >>>
 \end{lstlisting}
 \end{frame}
