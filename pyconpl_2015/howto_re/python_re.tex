@@ -386,6 +386,10 @@ src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
 \begin{frame}[fragile]
 \verb/\/ - backslash (escape metacharacters) \\
 For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/ \\
+\begin{lstlisting}
+>>> re.findall("\[\]", "Find brackets []")
+['[]']
+\end{lstlisting}
 \pause
 Some of special sequences beginning with \verb/\/ express predefined sets of characters: set of digits, letters, everything but whitespace
 \end{frame}
@@ -394,15 +398,63 @@ Some of special sequences beginning with \verb/\/ express predefined sets of cha
 \begin{itemize}
 \item \verb/\d/ - any decimal digit, equivalent of \verb/[0-9]/
 \item \verb/\D/ - everything but decimal digit, equivalent of \verb/[^0-9]/
-\pause
+\end{itemize}
+\begin{lstlisting}
+>>> re.findall("\d", "abc789xyz")
+['7', '8', '9']
+>>> re.findall("[0-9]", "abc789xyz")
+['7', '8', '9']
+>>> re.findall("\D", "abc789xyz")
+['a', 'b', 'c', 'x', 'y', 'z']
+>>> re.findall("[^0-9]", "abc789xyz")
+['a', 'b', 'c', 'x', 'y', 'z']
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{itemize}
 \item \verb/\w/ - any alphanumeric: \verb/[a-zA-Z0-9_]/
 \item \verb/\W/ - any non-alpahnumeric: \verb/[^a-zA-Z0-9_]/
-\pause
+\end{itemize}
+\begin{lstlisting}
+>>> re.findall('\w+', 'abc 789 xyz')
+['abc', '789', 'xyz']
+>>> re.findall('[a-zA-Z0-9_]+', 'abc 789 xyz')
+['abc', '789', 'xyz']
+>>> re.findall('\W+', 'abc 789 xyz')
+[' ', ' ']
+>>> re.findall('[^a-zA-Z0-9_]+', 'abc 789 xyz')
+[' ', ' ']
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{itemize}
 \item \verb/\s/ - any whitespace character: \verb/[ \t\n\r\f\v]/ \\ (space, tab (ASCII 0x09), newline (0x0A), return (0x0D), form feed - page break(0x0C), vertical tab (0x0B))
 \item \verb/\S/ - any non-whitespace character: \verb/[^ \t\n\r\f\v]/
-\pause \\
-NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while UNIX text files use \verb/\n/.
+\pause
+\item NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while UNIX text files use \verb/\n/.
 \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{lstlisting}
+>>> text = "line,\nwith \ttab,\vvertical,\rreturn and \nnewlines."
+>>> print(text)
+line,
+with    tab,
+return and  vertical,
+newlines.
+>>> re.findall("\s+", text)
+['\n', ' \t', '\x0b', '\r', ' ', ' \n']
+>>> re.findall("[ \t\n\r\f\v]+", text)
+['\n', ' \t', '\x0b', '\r', ' ', ' \n']
+>>> re.findall("\S+", text)
+['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
+>>> re.findall("[^ \t\n\r\f\v]+", text)
+['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
+>>>
+\end{lstlisting}
 \end{frame}
 
 \subsection{"Backslash Plague" problem}
@@ -581,6 +633,20 @@ in
 Make \verb/\w/, \verb/\W/, \verb/\b/, and \verb/\B/, dependent on the current locale instead of the Unicode database. \\
 \textit{Do not use. \\
 Deprecated in Python 3.5, will be removed in version 3.6}
+\end{frame}
+
+\subsection{More metacharacters}
+\begin{frame}[fragile]
+\verb/|/ - "or" operator
+\begin{lstlisting}
+>>> re.findall("No|Yes", "Yes and No")
+['Yes', 'No']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.findall("No|Yes", "Yes and No")
+['Yes', 'No']
+\end{lstlisting}
 \end{frame}
 
 \subsection{Performing Matches}
