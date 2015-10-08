@@ -489,6 +489,29 @@ Regular string & Raw string \\ \hline
 \end{tabular}
 \end{frame}
 
+\begin{frame}[fragile]
+\begin{lstlisting}
+>>> latex = """
+... \begin{document}
+... \section{History}
+... \subsection{Origins}
+... \begin{frame}
+... Content
+... \end{frame}
+... \end{document}
+... """
+>>> latex
+'\n\x08egin{document}\n\\section{History}\n\\subsection{Origins}\n\x08egin{frame}\nContent\n\\end{frame}\n\\end{document}\n'
+>>> re.findall(r"\\section", latex)
+['\\section']
+>>> print(re.findall(r"\\section{.*}", latex))
+['\\section{History}']
+>>> print(re.findall(r"\\section{.*}", latex)[0])
+\section{History}
+>>>
+\end{lstlisting}
+\end{frame}
+
 \section{Regular Expressions}
 \subsection{Compilation}
 \begin{frame}[fragile]
