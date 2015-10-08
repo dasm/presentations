@@ -515,7 +515,6 @@ Regular string & Raw string \\ \hline
 \section{Regular Expressions}
 \subsection{Compilation}
 \begin{frame}[fragile]
-\verb|dasm@hell:~$ python3|
 \begin{lstlisting}
 >>> import re
 >>> regex = re.compile('[a-zA-Z0-9]+')
@@ -523,12 +522,8 @@ Regular string & Raw string \\ \hline
 re.compile('[a-zA-Z0-9]+')
 >>> regex.findall('Search test 01')
 ['Search', 'test', '01']
->>>
 \end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\verb|dasm@hell:~$ python3|
+\pause
 \begin{lstlisting}
 >>> import re
 >>> regex = re.compile('[a-zA-Z0-9]+')
@@ -536,17 +531,12 @@ re.compile('[a-zA-Z0-9]+')
 re.compile('[a-zA-Z0-9]+')
 >>> re.findall(regex, 'Search test 02')
 ['Search', 'test', '02']
->>>
 \end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\verb|dasm@hell:~$ python3|
+\pause
 \begin{lstlisting}
 >>> import re
 >>> re.findall('[a-zA-Z0-9]+', 'Search test 03')
 ['Search', 'test', '03']
->>>
 \end{lstlisting}
 \end{frame}
 
@@ -667,8 +657,11 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \end{lstlisting}
 \pause
 \begin{lstlisting}
->>> re.findall("No|Yes", "Yes and No")
+>>> re.findall("Yes|No", "Yes|No")
 ['Yes', 'No']
+>>> re.findall("Yes\|No", "Yes|No")
+['Yes|No']
+>>>
 \end{lstlisting}
 \end{frame}
 
