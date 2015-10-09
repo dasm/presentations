@@ -649,6 +649,7 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \end{frame}
 
 \subsection{More metacharacters}
+\subsubsection{OR operator}
 \begin{frame}[fragile]
 \verb/|/ - "or" operator
 \begin{lstlisting}
@@ -662,6 +663,58 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 >>> re.findall("Yes\|No", "Yes|No")
 ['Yes|No']
 >>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{Begining of line operator}
+\begin{frame}[fragile]
+\verb/^, \A/ - "beginning of lines"
+\begin{lstlisting}
+>>> text = """Your own personal Jesus
+... Someone to hear your prayers
+... Someone who cares
+... Your own personal Jesus
+... Someone to hear your prayers
+... Someone who's there"""
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.findall("^Your", text)
+['Your']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.findall("^Your", text, re.M)
+['Your', 'Your']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.findall("\AYour", text)
+['Your']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.findall("\AYour", text, re.M)
+['Your']
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{End of line operator}
+\begin{frame}[fragile]
+\verb/$, \Z/ - "end of lines"
+\begin{lstlisting}
+>>> text = """Your own personal Jesus
+... Someone to hear your prayers
+... Someone who cares
+... Your own personal Jesus"""
+>>> re.findall("Jesus$", text)
+['Jesus']
+>>> re.findall("Jesus$", text, re.M)
+['Jesus', 'Jesus']
+>>> re.findall("Jesus\Z", text)
+['Jesus']
+>>> re.findall("Jesus\Z", text, re.M)
+['Jesus']
 \end{lstlisting}
 \end{frame}
 
