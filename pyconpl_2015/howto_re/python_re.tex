@@ -742,6 +742,70 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \end{frame}
 
 \subsection{Performing Matches}
+\subsubsection{match() vs. search()}
+\begin{frame}[fragile]
+\verb/match()/ vs. \verb/search()/
+\begin{lstlisting}
+>>> text = 'Your own personal Jesus Someone to hear your prayers Someone who cares Your own personal Jesus'
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.search("Your", text)
+<_sre.SRE_Match object; span=(0, 4), match='Your'>
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.match("Your", text)
+<_sre.SRE_Match object; span=(0, 4), match='Your'>
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.search("Jesus", text)
+<_sre.SRE_Match object; span=(18, 23), match='Jesus'>
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.match("Jesus", text)
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{findall() vs. finditer()}
+\begin{frame}[fragile]
+\verb/findall()/ vs. \verb/finditer()/
+\begin{lstlisting}
+>>> text = 'Your own personal Jesus Someone to hear your prayers Someone who cares Your own personal Jesus'
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> output_findall = re.findall("Someone", text)
+>>> output_finditer = re.finditer("Someone", text)
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> type(output_findall)
+<class 'list'>
+>>> type(output_finditer)
+<class 'callable_iterator'>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{lstlisting}
+>>> output_findall
+['Someone', 'Someone']
+>>> output_finditer
+<callable_iterator object at 0x7f69ffd267b8>
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> list(output_finditer)
+[<_sre.SRE_Match object; span=(24, 31), match='Someone'>, <_sre.SRE_Match object; span=(53, 60), match='Someone'>]
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsection{Match objects}
 \begin{frame}[fragile]
 \end{frame}
 
