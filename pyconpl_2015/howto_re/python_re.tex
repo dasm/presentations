@@ -806,13 +806,81 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \end{frame}
 
 \subsection{Match objects}
+\subsubsection{Introduction}
 \begin{frame}[fragile]
+\begin{lstlisting}
+>>> matched = re.match("(\d{0,2})-(\d{0,3})", "88-299")
+>>> matched
+<_sre.SRE_Match object; span=(0, 6), match='88-299'>
+>>> if matched:
+...     matched.groups()
+...
+('88', '299')
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> non_matched = re.match("(\d?)-(\d{0,3})", "88-299")
+>>> non_matched
+>>> non_matched == None
+True
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{Match objects methods and attributes}
+\begin{frame}[fragile]
+\verb/group()/
+\begin{lstlisting}
+>>> matched = re.match("(\d{0,2})-(\d{0,3})", "88-299")
+>>> matched.group(0)
+'88-299'
+>>> matched.group(1)
+'88'
+>>> matched.group(2)
+'299'
+>>> matched.group(3)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+IndexError: no such group
+>>>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\verb/start()/ and \verb/end()/
+\begin{lstlisting}
+>>> text = "Soft Kitty, warm Kitty"
+>>> matched = re.search("Kitty", text)
+>>> matched.group()
+'Kitty'
+>>> matched.start()
+5
+>>> matched.end()
+10
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\verb/match.re/ and \verb/match.string/
+\begin{lstlisting}
+>>> matched = re.match("(\w+)@(\w+\.\w+)", "login@server.com")
+>>> matched.groups()
+('login', 'server.com')
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> matched.re
+re.compile('(\\w+)@(\\w+\\.\\w+)')
+>>> matched.string
+'login@server.com'
+>>>
+\end{lstlisting}
 \end{frame}
 
 \section{Bibliography}
 \begin{frame}
 \begingroup
- \fontsize{6pt}{8pt}\selectfont
+\fontsize{6pt}{8pt}\selectfont
 \begin{itemize}
 \item Regular Expression HOWTO: \url{https://docs.python.org/2/howto/regex.html}
 \item Python Docs: Library re: \url{https://docs.python.org/2/library/re.html}
