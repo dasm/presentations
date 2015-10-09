@@ -718,6 +718,29 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \end{lstlisting}
 \end{frame}
 
+\subsubsection{Word boundaries}
+\begin{frame}[fragile]
+\verb/\b, \B/ - word boundaries
+\begin{lstlisting}
+>>> text = "People in class heard that Pluto should be reclassified, because it is no longer a planet."
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.sub("class", "room", text)
+'People in room heard that Pluto should be reroomified, because it is no longer a planet.'
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.sub(r"\bclass\b", "room", text)
+'People in room heard that Pluto should be reclassified, because it is no longer a planet.'
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.sub(r"\Bclass\B", "qual", text)
+'People in class heard that Pluto should be requalified, because it is no longer a planet.'
+\end{lstlisting}
+\end{frame}
+
 \subsection{Performing Matches}
 \begin{frame}[fragile]
 \end{frame}
