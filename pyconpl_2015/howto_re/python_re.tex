@@ -938,15 +938,59 @@ Search and replace - \verb/sub()/ and \verb/subn()/ \\
 \end{frame}
 
 \subsection{Grouping}
+\subsubsection{Introduction}
 \begin{frame}[fragile]
+\begin{lstlisting}
+>>> date = "15 October 2015"
+>>> matched = re.match("(\d+) (\w+) (\d{4})", date)
+>>> matched.groups()
+('15', 'October', '2015')
+>>> matched.group(1)
+'15'
+>>> matched.group(2)
+'October'
+>>> matched.group(3)
+'2015'
+>>>
+\end{lstlisting}
 \end{frame}
 
-\subsection{Named groups}
+\subsubsection{Named groups}
 \begin{frame}[fragile]
+Named groups
+\begin{lstlisting}
+>>> date = "15 October 2015"
+>>> matched = re.match("(?P<day>\d+) (?P<month>\w+) (?P<year>\d{4})", date)
+>>> matched.groups()
+('15', 'October', '2015')
+>>> matched.group('day')
+'15'
+>>> matched.group('month')
+'October'
+>>> matched.group('year')
+'2015'
+>>>
+\end{lstlisting}
 \end{frame}
 
 \subsection{Lookahead assertion}
 \begin{frame}[fragile]
+Positive and negative lookahead assertion
+\begin{lstlisting}
+>>> singer = "Michael Jackson"
+>>> player = "Michael Jordan"
+>>> player_pattern = "Michael (?=Jordan)"
+>>> player_matched = re.match(player_pattern, player)
+>>> player_matched
+<_sre.SRE_Match object; span=(0, 8), match='Michael '>
+>>> re.match(player_pattern, singer)
+>>> non_player_pattern = "Michael (?!Jordan)"
+>>> re.match(non_player_pattern, player)
+>>> non_player_matched = re.match(non_player_pattern, singer)
+>>> non_player_matched
+<_sre.SRE_Match object; span=(0, 8), match='Michael '>
+>>>
+\end{lstlisting}
 \end{frame}
 
 \section{Bibliography}
