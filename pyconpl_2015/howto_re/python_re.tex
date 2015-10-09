@@ -271,10 +271,10 @@ Metacharacters are not active inside class \\
 >>> import re
 >>> text = """From the beginning,
 ... in the middle,
-... and for the end."""
+... and at the end."""
 >>> regex = re.compile(".+$")
 >>> regex.findall(text)
-['and for the end.']
+['and at the end.']
 \end{lstlisting}
 \pause
 There is compilation flag, which changes default behavior.
@@ -371,9 +371,15 @@ src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
 \begin{lstlisting}
 >>> import re
 >>> text = "<html><head><title>Title</title></head></html>"
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> greedy_regex = re.compile("<.*>")
 >>> greedy_regex.findall(text)
 ['<html><head><title>Title</title></head></html>']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> non_greedy_regex = re.compile("<.*?>")
 >>> non_greedy_regex.findall(text)
 ['<html>', '<head>', '<title>', '</title>', '</head>', '</html>']
@@ -453,7 +459,6 @@ newlines.
 ['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
 >>> re.findall("[^ \t\n\r\f\v]+", text)
 ['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
->>>
 \end{lstlisting}
 \end{frame}
 
@@ -508,7 +513,6 @@ Regular string & Raw string \\ \hline
 ['\\section{History}']
 >>> print(re.findall(r"\\section{.*}", latex)[0])
 \section{History}
->>>
 \end{lstlisting}
 \end{frame}
 
@@ -562,6 +566,9 @@ in
 >>> regex = re.compile("\s+")
 >>> regex.findall("\xa0 ha")
 ['\xa0 ']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> ascii_regex = re.compile("\s+", re.ASCII)
 >>> ascii_regex.findall("\xa0 ha")
 [' ']
@@ -875,6 +882,50 @@ re.compile('(\\w+)@(\\w+\\.\\w+)')
 'login@server.com'
 >>>
 \end{lstlisting}
+\end{frame}
+
+\subsection{Modifying string}
+\subsubsection{Split}
+\begin{frame}[fragile]
+Split
+\begin{lstlisting}
+>>> text = "Oh, what a day. What a lovely day!"
+>>> re.split("\W+", text)
+['Oh', 'what', 'a', 'day', 'What', 'a', 'lovely', 'day', '']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.split("(\W+)", text)
+['Oh', ', ', 'what', ' ', 'a', ' ', 'day', '. ', 'What', ' ', 'a', ' ', 'lovely', ' ', 'day', '!', '']
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{Search and replace}
+\begin{frame}[fragile]
+Search and replace - \verb/sub()/ and \verb/subn()/ \\
+\verb/sub()/ is deprecated since Python 3.5 and will be removed in 3.6
+\begin{lstlisting}
+>>> pattern = r"\bBar\b"
+>>> replacement = "Baz"
+>>> string = "Foo Bar"
+>>> new_string, number_of_subs_made = re.subn(pattern, replacement, string)
+>>> new_string, number_of_subs_made
+('Foo Baz', 1)
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsection{Grouping}
+\begin{frame}[fragile]
+\end{frame}
+
+\subsection{Named groups}
+\begin{frame}[fragile]
+\end{frame}
+
+\subsection{Lookahead assertion}
+\begin{frame}[fragile]
 \end{frame}
 
 \section{Bibliography}
