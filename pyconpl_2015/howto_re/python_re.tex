@@ -693,7 +693,7 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 
 \subsubsection{Begining of line operator}
 \begin{frame}[fragile]
-\verb/^, \A/ - "beginning of lines"
+\verb/^, \A/ - beginning of lines
 \begin{lstlisting}
 >>> text = """Your own personal Jesus
 ... Someone to hear your prayers
@@ -706,19 +706,13 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \begin{lstlisting}
 >>> re.findall("^Your", text)
 ['Your']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("^Your", text, re.M)
-['Your', 'Your']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
 >>> re.findall("\AYour", text)
 ['Your']
 \end{lstlisting}
 \pause
 \begin{lstlisting}
+>>> re.findall("^Your", text, re.M)
+['Your', 'Your']
 >>> re.findall("\AYour", text, re.M)
 ['Your']
 \end{lstlisting}
@@ -732,12 +726,18 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 ... Someone to hear your prayers
 ... Someone who cares
 ... Your own personal Jesus"""
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> re.findall("Jesus$", text)
 ['Jesus']
->>> re.findall("Jesus$", text, re.M)
-['Jesus', 'Jesus']
 >>> re.findall("Jesus\Z", text)
 ['Jesus']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.findall("Jesus$", text, re.M)
+['Jesus', 'Jesus']
 >>> re.findall("Jesus\Z", text, re.M)
 ['Jesus']
 \end{lstlisting}
@@ -927,6 +927,9 @@ Search and replace - \verb/sub()/ and \verb/subn()/ \\
 >>> pattern = r"\bBar\b"
 >>> replacement = "Baz"
 >>> string = "Foo Bar"
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> new_string, number_of_subs_made = re.subn(pattern, replacement, string)
 >>> new_string, number_of_subs_made
 ('Foo Baz', 1)
