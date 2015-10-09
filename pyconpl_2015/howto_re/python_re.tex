@@ -585,6 +585,9 @@ in
 >>> regex = re.compile("[a-z]+")
 >>> regex.findall(text)
 ['amel', 'ase', 'and', 'lower', 'o', 'd']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> ignorecase_regex = re.compile("[a-z]+", re.I)
 >>> ignorecase_regex.findall(text)
 ['CamelCase', 'CAPITAL', 'and', 'lower', 'WoRd']
@@ -599,10 +602,16 @@ in
 >>> import re
 >>> text = """From the beginning,
 ... in the middle,
-... and for the end."""
+... and at the end."""
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> regex = re.compile("^[a-zA-Z]+")
 >>> regex.findall(text)
 ['From']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> multiline_regex = re.compile("^[a-zA-Z]+", re.M)
 >>> multiline_regex.findall(text)
 ['From', 'in', 'and']
@@ -615,15 +624,21 @@ in
 \verb/re.DOTALL, re.S/ \\
 \begin{lstlisting}
 >>> import re
->>> text = """From the beginnin,
+>>> text = """From the beginning,
 ... in the middle,
-... and for the end."""
+... and at the end."""
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> regex = re.compile(".+$")
 >>> regex.findall(text)
-['and for the end.']
+['and at the end.']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> dotall_regex = re.compile(".+$", re.S)
 >>> dotall_regex.findall(text)
-['From the beginnin,\nin the middle,\nand for the end.']
+['From the beginnin,\nin the middle,\nand at the end.']
 >>>
 \end{lstlisting}
 \end{frame}
@@ -637,6 +652,9 @@ in
 >>> regex = re.compile(r"\d+\.?\d*")
 >>> regex.findall(numbers)
 ['127.2', '15.30', '73']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> verbose_regex = re.compile(r"""
         \d +  # the integral part
         \. ?  # the decimal point
@@ -904,7 +922,7 @@ Split
 \subsubsection{Search and replace}
 \begin{frame}[fragile]
 Search and replace - \verb/sub()/ and \verb/subn()/ \\
-\verb/sub()/ is deprecated since Python 3.5 and will be removed in 3.6
+\verb/sub()/ \textit{is deprecated since Python 3.5 and will be removed in 3.6}
 \begin{lstlisting}
 >>> pattern = r"\bBar\b"
 >>> replacement = "Baz"
