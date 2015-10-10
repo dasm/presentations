@@ -973,22 +973,54 @@ Named groups
 \end{lstlisting}
 \end{frame}
 
-\subsection{Lookahead assertion}
 \begin{frame}[fragile]
-Positive and negative lookahead assertion
+\begin{lstlisting}
+>>> m = re.search(r'(?P<quote>")(.*)(?P=quote)', 'This is "quote"')
+>>> m
+<_sre.SRE_Match object; span=(8, 15), match='"quote"'>
+>>> m.groups()
+('"', 'quote')
+\end{lstlisting}
+\end{frame}
+
+\subsection{Assertions}
+\subsubsection{Lookahead assertions}
+\begin{frame}[fragile]
+Positive and negative lookahead assertions
 \begin{lstlisting}
 >>> singer = "Michael Jackson"
 >>> player = "Michael Jordan"
 >>> player_pattern = "Michael (?=Jordan)"
->>> player_matched = re.match(player_pattern, player)
->>> player_matched
-<_sre.SRE_Match object; span=(0, 8), match='Michael '>
->>> re.match(player_pattern, singer)
 >>> non_player_pattern = "Michael (?!Jordan)"
->>> re.match(non_player_pattern, player)
->>> non_player_matched = re.match(non_player_pattern, singer)
->>> non_player_matched
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.match(player_pattern, player)
 <_sre.SRE_Match object; span=(0, 8), match='Michael '>
+>>> re.match(non_player_pattern, singer)
+<_sre.SRE_Match object; span=(0, 8), match='Michael '>
+>>> player_matched
+\end{lstlisting}
+\pause
+\begin{lstlisting}
+>>> re.match(player_pattern, singer)
+>>> re.match(non_player_pattern, player)
+>>>
+\end{lstlisting}
+\end{frame}
+
+\subsubsection{Lookbehind assertions}
+\begin{frame}[fragile]
+Positive and negative lookbehind assertions
+\begin{lstlisting}
+>>> string = """
+... def function():
+...     return function()
+"""
+>>> re.search("(?<=def )function", string)
+<_sre.SRE_Match object; span=(4, 12), match='function'>
+>>> re.search("(?<!def )function", string)
+<_sre.SRE_Match object; span=(27, 35), match='function'>
 >>>
 \end{lstlisting}
 \end{frame}
