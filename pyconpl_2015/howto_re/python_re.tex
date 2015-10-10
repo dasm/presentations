@@ -259,7 +259,7 @@ Metacharacters are not active inside class \\
 \begin{lstlisting}
 >>> import re
 >>> re.findall("[^5]", "abc 456 xyz")
-['4', '6']
+['a', 'b', 'c', ' ', '4', '6', ' ', 'x', 'y', 'z']
 >>>
 \end{lstlisting}
 \end{frame}
@@ -269,7 +269,7 @@ Metacharacters are not active inside class \\
 \verb/./ - dot. Matches anything except a newline character
 \begin{lstlisting}
 >>> import re
->>> regex = re.compile(".$")
+>>> regex = re.compile(".")
 >>> regex.findall("string")
 ['s', 't', 'r', 'i', 'n', 'g']
 >>>
@@ -337,7 +337,7 @@ src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
 \end{frame}
 
 \begin{frame}[fragile]
-\verb/abcbd/
+\verb/re.match("a[bcd]*b", "abcbd")/
 \begin{itemize}
 \item matches \verb/a/
 \pause
@@ -418,7 +418,7 @@ Some of special sequences beginning with \verb/\/ express predefined sets of cha
 \begin{frame}[fragile]
 \begin{itemize}
 \item \verb/\w/ - any alphanumeric: \verb/[a-zA-Z0-9_]/
-\item \verb/\W/ - any non-alpahnumeric: \verb/[^a-zA-Z0-9_]/
+\item \verb/\W/ - any non-alphanumeric: \verb/[^a-zA-Z0-9_]/
 \end{itemize}
 \begin{lstlisting}
 >>> re.findall('\w+', 'abc 789 xyz')
@@ -464,7 +464,9 @@ newlines.
 \begin{frame}[fragile]
 \begin{itemize}
 \item re is handled as string
+\pause
 \item one of \verb/re/ metacharacters is \verb/\/
+\pause
 \item backslash for escaping in \verb/re/ conflicts with the same purpose in Python
 \end{itemize}
 \end{frame}
@@ -628,15 +630,15 @@ in
 \end{lstlisting}
 \pause
 \begin{lstlisting}
->>> regex = re.compile(".+$")
+>>> regex = re.compile(".+")
 >>> regex.findall(text)
-['and at the end.']
+['From the beginning,', 'in the middle,', 'and at the end.']
 \end{lstlisting}
 \pause
 \begin{lstlisting}
->>> dotall_regex = re.compile(".+$", re.S)
+>>> dotall_regex = re.compile(".+", re.S)
 >>> dotall_regex.findall(text)
-['From the beginnin,\nin the middle,\nand at the end.']
+['From the beginning,\nin the middle,\nand at the end.']
 >>>
 \end{lstlisting}
 \end{frame}
