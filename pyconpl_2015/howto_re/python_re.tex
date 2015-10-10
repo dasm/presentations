@@ -258,7 +258,7 @@ Metacharacters are not active inside class \\
 \verb/^/ - complementing set
 \begin{lstlisting}
 >>> import re
->>> re.findall("[^5]", "456")
+>>> re.findall("[^5]", "abc 456 xyz")
 ['4', '6']
 >>>
 \end{lstlisting}
@@ -269,12 +269,10 @@ Metacharacters are not active inside class \\
 \verb/./ - dot. Matches anything except a newline character
 \begin{lstlisting}
 >>> import re
->>> text = """From the beginning,
-... in the middle,
-... and at the end."""
->>> regex = re.compile(".+$")
->>> regex.findall(text)
-['and at the end.']
+>>> regex = re.compile(".$")
+>>> regex.findall("string")
+['s', 't', 'r', 'i', 'n', 'g']
+>>>
 \end{lstlisting}
 \pause
 There is compilation flag, which changes default behavior.
@@ -1023,6 +1021,19 @@ Positive and negative lookbehind assertions
 <_sre.SRE_Match object; span=(27, 35), match='function'>
 >>>
 \end{lstlisting}
+\end{frame}
+
+\section{Features}
+\begin{frame}
+\begin{center}
+\includegraphics[width=0.70\textwidth]{images/re1.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\includegraphics[width=0.70\textwidth]{images/re2.png}
+\end{center}
 \end{frame}
 
 \section{Bibliography}
