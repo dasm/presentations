@@ -73,7 +73,7 @@ Release of Python 1.5
 \begin{itemize}
  \item Deprecated old module `regex`, based on Perl-style patterns.
 \pause
- \item `regex` finally removed in Python 2.5.
+ \item `regex` finally removed in Python 2.5 (September 19, 2006)
 \end{itemize}
 \end{frame}
 
@@ -327,7 +327,7 @@ There is compilation flag, which changes default behavior.
 
 \subsection{Greedy}
 \begin{frame}[fragile]
-\verb/*/, \verb/+/ and \verb/?/ are greedy. Will try to repeat it as many times as possible (re engine can match only 2 billion characters (2GB) -- C \verb/int/ limitation). \\
+\verb/*/, \verb/+/, \verb/?/ and \verb/{m,n}/ are greedy. Will try to repeat it as many times as possible (re engine can match only 2 billion characters (2GB) -- C \verb/int/ limitation). \\
 \pause
 \verb/a[bcd]*b/ - matches \verb/a/, zero or more letters from \verb/bcd/, and ends with \verb/b/ \\
 \begin{center}
@@ -408,6 +408,9 @@ Some of special sequences beginning with \verb/\/ express predefined sets of cha
 ['7', '8', '9']
 >>> re.findall("[0-9]", "abc789xyz")
 ['7', '8', '9']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> re.findall("\D", "abc789xyz")
 ['a', 'b', 'c', 'x', 'y', 'z']
 >>> re.findall("[^0-9]", "abc789xyz")
@@ -425,6 +428,9 @@ Some of special sequences beginning with \verb/\/ express predefined sets of cha
 ['abc', '789', 'xyz']
 >>> re.findall('[a-zA-Z0-9_]+', 'abc 789 xyz')
 ['abc', '789', 'xyz']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> re.findall('\W+', 'abc 789 xyz')
 [' ', ' ']
 >>> re.findall('[^a-zA-Z0-9_]+', 'abc 789 xyz')
@@ -449,13 +455,15 @@ line,
 with    tab,
 return and  vertical,
 newlines.
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> re.findall("\s+", text)
 ['\n', ' \t', '\x0b', '\r', ' ', ' \n']
->>> re.findall("[ \t\n\r\f\v]+", text)
-['\n', ' \t', '\x0b', '\r', ' ', ' \n']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> re.findall("\S+", text)
-['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
->>> re.findall("[^ \t\n\r\f\v]+", text)
 ['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
 \end{lstlisting}
 \end{frame}
@@ -505,10 +513,14 @@ Regular string & Raw string \\ \hline
 ... \end{frame}
 ... \end{document}
 ... """
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> latex
 '\n\x08egin{document}\n\\section{History}\n\\subsection{Origins}\n\x08egin{frame}\nContent\n\\end{frame}\n\\end{document}\n'
->>> re.findall(r"\\section", latex)
-['\\section']
+\end{lstlisting}
+\pause
+\begin{lstlisting}
 >>> print(re.findall(r"\\section{.*}", latex))
 ['\\section{History}']
 >>> print(re.findall(r"\\section{.*}", latex)[0])
@@ -834,13 +846,13 @@ Deprecated in Python 3.5, will be removed in version 3.6}
 \subsubsection{Introduction}
 \begin{frame}[fragile]
 \begin{lstlisting}
->>> matched = re.match("(\d{0,2})-(\d{0,3})", "88-299")
+>>> matched = re.match("\d{0,2}-\d{0,3}", "88-299")
 >>> matched
 <_sre.SRE_Match object; span=(0, 6), match='88-299'>
 >>> if matched:
-...     matched.groups()
+...     # do something
+...     pass
 ...
-('88', '299')
 \end{lstlisting}
 \pause
 \begin{lstlisting}
@@ -976,7 +988,6 @@ Positive and negative lookahead assertions
 <_sre.SRE_Match object; span=(0, 8), match='Michael '>
 >>> re.match(non_player_pattern, singer)
 <_sre.SRE_Match object; span=(0, 8), match='Michael '>
->>> player_matched
 \end{lstlisting}
 \pause
 \begin{lstlisting}
