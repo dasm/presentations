@@ -57,7 +57,7 @@
 \titlepage
 \end{frame}
 
-\section{History}
+\section{Under the hood}
 \subsection{Origins}
 \begin{frame}
 \includegraphics[width=1\textwidth]{images/history.png}
@@ -77,7 +77,6 @@ Release of Python 1.5
 \end{itemize}
 \end{frame}
 
-\section{Under the hood}
 \subsection{Do I need it?}
 \begin{frame}
 Answer for questions:
@@ -250,7 +249,6 @@ re.compile('[a-zA-Z0-9]+')
 \end{itemize}
 \end{frame}
 
-\section{Simple patterns}
 \subsection{Metacharacters}
 \begin{frame}[fragile]
 \begin{verbatim}
@@ -357,8 +355,8 @@ re.S compilation flag changes default behavior.
 \verb/m/ and \verb/n/ can be ommited. When m ommited, there is zero, when n ommited, upper bound infinity (more precisely, 2 billions)
 \end{frame}
 
-\subsection{Equivalents}
 \begin{frame}[fragile]
+\frametitle{Equivalents}
 \begin{verbatim}
 {0,} == "*"
 {1,} == "+"
@@ -366,7 +364,7 @@ re.S compilation flag changes default behavior.
 \end{verbatim}
 \end{frame}
 
-\subsection{Greedy}
+\subsection{Greedy vs. Non-greedy}
 \begin{frame}[fragile]
 \verb/*/, \verb/+/, \verb/?/ and \verb/{m,n}/ are greedy. Will try to repeat it as many times as possible (re engine can match only 2 billion characters (2GB) -- C \verb/int/ limitation). \\
 \pause
@@ -402,7 +400,6 @@ src: \url{https://www.debuggex.com/r/NT7_HIVhxI_h64zk}
 \end{lstlisting}
 \end{frame}
 
-\subsection{Non-greedy}
 \begin{frame}[fragile]
 \verb/*?, +?, ??, {m,n}?/ are non-greedy. Will try to match as few characters as possible.
 \pause
@@ -642,7 +639,7 @@ Regular string & Raw string \\ \hline
 \end{lstlisting}
 \end{frame}
 
-\section{Functions and methods}
+\section{Features}
 \subsection{Performing Matches}
 \subsubsection{match() vs. search()}
 \begin{frame}[fragile]
@@ -878,7 +875,6 @@ Positive and negative lookbehind assertions
 \end{lstlisting}
 \end{frame}
 
-\section{Features}
 \subsection{Engines comparison} 
 \begin{frame}
 \begin{center}
