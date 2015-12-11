@@ -818,7 +818,8 @@ Search and replace - \verb/sub()/ and \verb/subn()/ \\
 >>> matched.group('month')
 'December'
 >>> matched.group('year')
-'2010'
+'2015'
+>>> matched.groupdict()
 {'month': 'December', 'day': '10', 'year': '2015'}
 >>> 
 \end{lstlisting}
