@@ -47,7 +47,7 @@
 
 \title{Introduction to Regular Expressions}
 \author{Dariusz Śmigiel}
-\date{PyZurich, 12/10/2015}
+\date{San Antonio, 2016-02-25}
 \usetheme{Warsaw}
 \usecolortheme{beaver}
 
@@ -203,20 +203,18 @@ Perl regex to validate email addresses according to the RFC 822
 \subsection{The Dragon}
 \begin{frame}[fragile]
 \begin{lstlisting}
-([a-zP]{18}) (\d{0,3}) [0-9]{4} (?P<name>[a-zA-Z]+), (?P=name)
+([0-9]+) (\w+ \w+)\n(?P<city>[\w ]+), ([A-Z]{2}) (?P<zip>\d{5})
 \end{lstlisting}
 \end{frame}
 
 \section{Beginning}
 \subsection{Compilation Process}
 \begin{frame}[fragile]
-\pause
 \begin{lstlisting}
 >>> import re
 >>> re.findall('[a-zA-Z0-9]+', 'Search test 03')
 ['Search', 'test', '03']
 \end{lstlisting}
-\pause
 \begin{lstlisting}
 >>> import re
 >>> regex = re.compile('[a-zA-Z0-9]+')
@@ -225,7 +223,6 @@ re.compile('[a-zA-Z0-9]+')
 >>> re.findall(regex, 'Search test 02')
 ['Search', 'test', '02']
 \end{lstlisting}
-\pause
 \begin{lstlisting}
 >>> import re
 >>> regex = re.compile('[a-zA-Z0-9]+')
@@ -254,67 +251,6 @@ re.compile('[a-zA-Z0-9]+')
 \begin{verbatim}
 . ^ $ * + ? { } [ ] \ | ( )
 \end{verbatim}
-\end{frame}
-
-\subsubsection{Class}
-\begin{frame}[fragile]
-\verb/[ ]/ - class: set of characters
-\begin{lstlisting}
->>> import re
->>> re.findall("[def]", "abcdefghi")
-['d', 'e', 'f']
->>> re.findall("[d-f]", "abcdefghi")
-['d', 'e', 'f']
->>>
-\end{lstlisting}
-\pause
-Metacharacters are not active inside class \\
-\begin{lstlisting}
->>> re.findall("[d-f$]", "abcdefg$hi")
-['d', 'e', 'f', '$']
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{Complementing set}
-\begin{frame}[fragile]
-\verb/^/ - complement of set
-\begin{lstlisting}
->>> import re
->>> re.findall("[^5]", "abc 456 xyz")
-['a', 'b', 'c', ' ', '4', '6', ' ', 'x', 'y', 'z']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{Dot - '.'}
-\begin{frame}[fragile]
-\verb/./ - dot. Matches anything except a newline character
-\begin{lstlisting}
->>> import re
->>> regex = re.compile(".")
->>> regex.findall("string")
-['s', 't', 'r', 'i', 'n', 'g']
->>>
-\end{lstlisting}
-\pause
-re.S compilation flag changes default behavior.
-\end{frame}
-
-\subsubsection{OR operator}
-\begin{frame}[fragile]
-\verb/|/ - "or" operator
-\begin{lstlisting}
->>> re.findall("No|Yes", "Yes and No")
-['Yes', 'No']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("Yes|No", "Yes|No")
-['Yes', 'No']
->>> re.findall("Yes\|No", "Yes|No")
-['Yes|No']
->>>
-\end{lstlisting}
 \end{frame}
 
 \subsection{Repeating Things}
@@ -436,149 +372,6 @@ For matching \verb/[/ or \verb/\/ you can use \verb/\[/ or \verb/\\/ \\
 Some of special sequences beginning with \verb/\/ express predefined sets of characters: set of digits, letters, everything but whitespace
 \end{frame}
 
-\begin{frame}[fragile]
-\begin{itemize}
-\item \verb/\d/ - any decimal digit, equivalent of \verb/[0-9]/
-\item \verb/\D/ - everything but decimal digit, equivalent of \verb/[^0-9]/
-\end{itemize}
-\begin{lstlisting}
->>> re.findall("\d", "abc789xyz")
-['7', '8', '9']
->>> re.findall("[0-9]", "abc789xyz")
-['7', '8', '9']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("\D", "abc789xyz")
-['a', 'b', 'c', 'x', 'y', 'z']
->>> re.findall("[^0-9]", "abc789xyz")
-['a', 'b', 'c', 'x', 'y', 'z']
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{itemize}
-\item \verb/\w/ - any alphanumeric: \verb/[a-zA-Z0-9_]/
-\item \verb/\W/ - any non-alphanumeric: \verb/[^a-zA-Z0-9_]/
-\end{itemize}
-\begin{lstlisting}
->>> re.findall('\w+', 'abc 789 xyz')
-['abc', '789', 'xyz']
->>> re.findall('[a-zA-Z0-9_]+', 'abc 789 xyz')
-['abc', '789', 'xyz']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall('\W+', 'abc 789 xyz')
-[' ', ' ']
->>> re.findall('[^a-zA-Z0-9_]+', 'abc 789 xyz')
-[' ', ' ']
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{itemize}
-\item \verb/\s/ - any whitespace character: \verb/[ \t\n\r\f\v]/ \\ (space, tab (ASCII 0x09), newline (0x0A), return (0x0D), form feed - page break(0x0C), vertical tab (0x0B))
-\item \verb/\S/ - any non-whitespace character: \verb/[^ \t\n\r\f\v]/
-\pause
-\item NOTE! Remember that Windows text files use \verb/\r\n/ to terminate lines, while UNIX text files use \verb/\n/.
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{lstlisting}
->>> text = "line,\nwith \ttab,\vvertical,\rreturn and \nnewlines."
->>> print(text)
-line,
-with    tab,
-return and  vertical,
-newlines.
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("\s+", text)
-['\n', ' \t', '\x0b', '\r', ' ', ' \n']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("\S+", text)
-['line,', 'with', 'tab,', 'vertical,', 'return', 'and', 'newlines.']
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{Begining of line operator}
-\begin{frame}[fragile]
-\verb/^, \A/ - beginning of lines
-\begin{lstlisting}
->>> text = """Your own personal Jesus
-... Someone to hear your prayers
-... Someone who cares
-... Your own personal Jesus"""
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("^Your", text)
-['Your']
->>> re.findall("\AYour", text)
-['Your']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("^Your", text, re.M)
-['Your', 'Your']
->>> re.findall("\AYour", text, re.M)
-['Your']
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{End of line operator}
-\begin{frame}[fragile]
-\verb/$, \Z/ - end of lines
-\begin{lstlisting}
->>> text = """Your own personal Jesus
-... Someone to hear your prayers
-... Someone who cares
-... Your own personal Jesus"""
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("Jesus$", text)
-['Jesus']
->>> re.findall("Jesus\Z", text)
-['Jesus']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.findall("Jesus$", text, re.M)
-['Jesus', 'Jesus']
->>> re.findall("Jesus\Z", text, re.M)
-['Jesus']
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{Word boundaries}
-\begin{frame}[fragile]
-\verb/\b, \B/ - word boundaries
-\begin{lstlisting}
->>> text = "People in class heard that Pluto should be reclassified, because it is no longer a planet."
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.sub("class", "room", text)
-'People in room heard that Pluto should be reroomified, because it is no longer a planet.'
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.sub(r"\bclass\b", "room", text)
-'People in room heard that Pluto should be reclassified, because it is no longer a planet.'
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.sub(r"\Bclass\B", "qual", text)
-'People in class heard that Pluto should be requalified, because it is no longer a planet.'
-\end{lstlisting}
-\end{frame}
-
 \subsection{"Backslash Plague" problem}
 \begin{frame}[fragile]
 \begin{itemize}
@@ -613,32 +406,6 @@ Regular string & Raw string \\ \hline
 \end{tabular}
 \end{frame}
 
-\begin{frame}[fragile]
-\begin{lstlisting}
->>> latex = """
-... \begin{document}
-... \section{History}
-... \subsection{Origins}
-... \begin{frame}
-... Content
-... \end{frame}
-... \end{document}
-... """
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> latex
-'\n\x08egin{document}\n\\section{History}\n\\subsection{Origins}\n\x08egin{frame}\nContent\n\\end{frame}\n\\end{document}\n'
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> print(re.findall(r"\\section{.*}", latex))
-['\\section{History}']
->>> print(re.findall(r"\\section{.*}", latex)[0])
-\section{History}
-\end{lstlisting}
-\end{frame}
-
 \section{Features}
 \subsection{Performing Matches}
 \subsubsection{match() vs. search()}
@@ -647,143 +414,20 @@ Regular string & Raw string \\ \hline
 \begin{lstlisting}
 >>> text = 'Your own personal Jesus Someone to hear your prayers Someone who cares Your own personal Jesus'
 \end{lstlisting}
-\pause
 \begin{lstlisting}
 >>> re.search("Your", text)
 <_sre.SRE_Match object; span=(0, 4), match='Your'>
 \end{lstlisting}
-\pause
 \begin{lstlisting}
 >>> re.match("Your", text)
 <_sre.SRE_Match object; span=(0, 4), match='Your'>
 \end{lstlisting}
-\pause
 \begin{lstlisting}
 >>> re.search("Jesus", text)
 <_sre.SRE_Match object; span=(18, 23), match='Jesus'>
 \end{lstlisting}
-\pause
 \begin{lstlisting}
 >>> re.match("Jesus", text)
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{findall() vs. finditer()}
-\begin{frame}[fragile]
-\verb/findall()/ vs. \verb/finditer()/
-\begin{lstlisting}
->>> text = 'Your own personal Jesus Someone to hear your prayers Someone who cares Your own personal Jesus'
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> output_findall = re.findall("Someone", text)
->>> output_finditer = re.finditer("Someone", text)
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> type(output_findall)
-<class 'list'>
->>> type(output_finditer)
-<class 'callable_iterator'>
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{lstlisting}
->>> output_findall
-['Someone', 'Someone']
->>> output_finditer
-<callable_iterator object at 0x7f69ffd267b8>
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> list(output_finditer)
-[<_sre.SRE_Match object; span=(24, 31), match='Someone'>, <_sre.SRE_Match object; span=(53, 60), match='Someone'>]
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsection{Match objects}
-\subsubsection{Introduction}
-\begin{frame}[fragile]
-\begin{lstlisting}
->>> matched = re.match("\d{0,2}-\d{0,3}", "88-299")
->>> matched
-<_sre.SRE_Match object; span=(0, 6), match='88-299'>
->>> if matched:
-...     # do something
-...     pass
-...
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> non_matched = re.match("(\d?)-(\d{0,3})", "88-299")
->>> non_matched
->>> non_matched == None
-True
->>>
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\verb/start()/ and \verb/end()/
-\begin{lstlisting}
->>> text = "Soft Kitty, warm Kitty"
->>> matched = re.search("Kitty", text)
->>> matched.start()
-5
->>> matched.end()
-10
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\verb/match.re/ and \verb/match.string/
-\begin{lstlisting}
->>> matched = re.match(r"(\w+)@(\w+\.\w+)", "login@server.com")
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> matched.re
-re.compile('(\\w+)@(\\w+\\.\\w+)')
->>> matched.string
-'login@server.com'
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsection{Modifying string}
-\subsubsection{Split}
-\begin{frame}[fragile]
-\verb/split()/
-\begin{lstlisting}
->>> text = "Oh, what a day. What a lovely day!"
->>> re.split("\W+", text)
-['Oh', 'what', 'a', 'day', 'What', 'a', 'lovely', 'day', '']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.split("(\W+)", text)
-['Oh', ', ', 'what', ' ', 'a', ' ', 'day', '. ', 'What', ' ', 'a', ' ', 'lovely', ' ', 'day', '!', '']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{Search and replace}
-\begin{frame}[fragile]
-Search and replace - \verb/sub()/ and \verb/subn()/ \\
-\verb/sub()/ \textit{is deprecated in Python 3.5 and will be removed in 3.6}
-\begin{lstlisting}
->>> pattern = r"\bBar\b"
->>> replacement = "Baz"
->>> string = "Foo Bar"
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> new_string, number_of_subs_made = re.subn(pattern, replacement, string)
->>> new_string, number_of_subs_made
-('Foo Baz', 1)
 >>>
 \end{lstlisting}
 \end{frame}
@@ -821,62 +465,11 @@ Search and replace - \verb/sub()/ and \verb/subn()/ \\
 '2015'
 >>> matched.groupdict()
 {'month': 'December', 'day': '10', 'year': '2015'}
->>> 
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\begin{lstlisting}
->>> m = re.search(r'(?P<quote>")(.*)(?P=quote)', 'This is "quote"')
->>> m
-<_sre.SRE_Match object; span=(8, 15), match='"quote"'>
->>> m.groups()
-('"', 'quote')
-\end{lstlisting}
-\end{frame}
-
-\subsection{Assertions}
-\subsubsection{Lookahead assertions}
-\begin{frame}[fragile]
-Positive and negative lookahead assertions
-\begin{lstlisting}
->>> singer = "Michael Jackson"
->>> player = "Michael Jordan"
->>> player_pattern = "Michael (?=Jordan)"
->>> non_player_pattern = "Michael (?!Jordan)"
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.match(player_pattern, player)
-<_sre.SRE_Match object; span=(0, 8), match='Michael '>
->>> re.match(non_player_pattern, singer)
-<_sre.SRE_Match object; span=(0, 8), match='Michael '>
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> re.match(player_pattern, singer)
->>> re.match(non_player_pattern, player)
 >>>
 \end{lstlisting}
 \end{frame}
 
-\subsubsection{Lookbehind assertions}
-\begin{frame}[fragile]
-Positive and negative lookbehind assertions
-\begin{lstlisting}
->>> string = """
-... def function():
-...     return function()
-"""
->>> re.search("(?<=def )function", string)
-<_sre.SRE_Match object; span=(4, 12), match='function'>
->>> re.search("(?<!def )function", string)
-<_sre.SRE_Match object; span=(27, 35), match='function'>
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsection{Engines comparison} 
+\subsection{Engines comparison}
 \begin{frame}
 \begin{center}
 \includegraphics[width=1\textwidth]{images/re1.png}
@@ -892,7 +485,7 @@ Positive and negative lookbehind assertions
 \subsection{Slaying the Dragon}
 \begin{frame}[fragile]
 \begin{lstlisting}
-([a-zP]{18}) (\d{0,3}) [0-9]{4} (?P<name>[a-zA-Z]+), (?P=name)
+([0-9]+) (\w+\ \w+)\n(?P<city>[\w ]+), ([A-Z]{2}) (?P<zip>\d{5})
 \end{lstlisting}
 \end{frame}
 
@@ -900,15 +493,16 @@ Positive and negative lookbehind assertions
 \begin{lstlisting}
 def verify_regex(text):
     regex = """
-    ([a-zP]{18}) # Capital "P" and a to z, repeated exactly 18 times, assigned to group
+    ([0-9]+)     # Match any recurring numbers
     \            # One whitespace
-    (\d{0,3})    # Numbers, repeated 0 to 3 times
+    (\w+ \w+)    # Match street
+    \n           # New line
+    (?P<city>[\w ]+) # Named group for City
+    ,            # Comma :)
     \            # One whitespace
-    [0-9]{4}     # Like above, but 4 times
+    ([A-Z]{2})   # Two capital letters, matching state
     \            # One whitespace
-    (?P<name>[a-zA-Z] +), # Assign to named group word
-    \            # One whitespace
-    (?P=name)    # reuse word, already assigned to group called "name"
+    (?P<zip>\d{5}) # Named group for matching ZIP code
     """
     re_compile = re.compile(regex, re.X)
     matched = re_compile.match(text)
@@ -918,10 +512,31 @@ def verify_regex(text):
 
 \begin{frame}[fragile]
 \begin{lstlisting}
->>> text = "Pfingstweidstrasse 60 8005 Zurich, Zurich"
->>> verify_regex(text)
-('Pfingstweidstrasse', '60', 'Zurich')
+>>> address = """1 Fanatical Place
+San Antonio, TX 78218"""
+>>> verify_regex(address)
+('1', 'Fanatical Place', 'San Antonio', 'TX', '78218')
 >>>
+\end{lstlisting}
+\end{frame}
+
+\subsection{Why am I talking about this?}
+\begin{frame}[fragile]
+\begin{lstlisting}
+def parse_volume_type_from_filename(self, emcConfigFile):
+    """Parse the volume type from the file (if it exists).
+
+    :param emcConfigFile: the EMC configuration file
+    :returns: volumeTypeName - the volume type name
+    """
+    volumeTypeName = None
+
+    m = re.search('/etc/cinder/cinder_emc_config_(.+?).xml', emcConfigFile)
+    if m:
+        volumeTypeName = m.group(1)
+
+    return volumeTypeName
+"cinder/cinder/volume/drivers/emc/emc_vmax_utils.py"
 \end{lstlisting}
 \end{frame}
 
@@ -936,7 +551,7 @@ def verify_regex(text):
 \subsection{re2}
 \begin{frame}
 Wrapper for Google RE2 engine
-\\ 
+\\
 Prerequisites for re2 in Python:
 \begin{itemize}
 \item RE2 library from Google
@@ -1033,136 +648,6 @@ src: \url{https://github.com/axiak/pyre2/blob/master/tests/performance.py}
 \begin{frame}
 \frametitle{Thank you}
 Questions?
-\end{frame}
-
-\section*{Backup}
-\subsection{Compilation Flags}
-\subsubsection{re.DEBUG}
-\begin{frame}[fragile]
-\verb/re.DEBUG/
-\begin{lstlisting}
->>> import re
->>> regex = re.compile('[a-z]', re.DEBUG)
-in
-  range (97, 122)
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{re.ASCII}
-\begin{frame}[fragile]
-\verb/re.ASCII, re.A/ \\
-\verb/\xa0/ - non-breaking space
-\begin{lstlisting}
->>> import re
->>> regex = re.compile("\s+")
->>> regex.findall("\xa0 ha")
-['\xa0 ']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> ascii_regex = re.compile("\s+", re.ASCII)
->>> ascii_regex.findall("\xa0 ha")
-[' ']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{re.IGNORECASE}
-\begin{frame}[fragile]
-\verb/re.IGNORECASE, re.I/ \\
-\begin{lstlisting}
->>> import re
->>> text = "CamelCase CAPITAL and lower WoRd"
->>> regex = re.compile("[a-z]+")
->>> regex.findall(text)
-['amel', 'ase', 'and', 'lower', 'o', 'd']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> ignorecase_regex = re.compile("[a-z]+", re.I)
->>> ignorecase_regex.findall(text)
-['CamelCase', 'CAPITAL', 'and', 'lower', 'WoRd']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{re.MULTILINE}
-\begin{frame}[fragile]
-\verb/re.MULTILINE, re.M/ \\
-\begin{lstlisting}
->>> import re
->>> text = """From the beginning,
-... in the middle,
-... and at the end."""
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> regex = re.compile("^[a-zA-Z]+")
->>> regex.findall(text)
-['From']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> multiline_regex = re.compile("^[a-zA-Z]+", re.M)
->>> multiline_regex.findall(text)
-['From', 'in', 'and']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{re.DOTALL}
-\begin{frame}[fragile]
-\verb/re.DOTALL, re.S/ \\
-\begin{lstlisting}
->>> import re
->>> text = """From the beginning,
-... in the middle,
-... and at the end."""
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> regex = re.compile(".+")
->>> regex.findall(text)
-['From the beginning,', 'in the middle,', 'and at the end.']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> dotall_regex = re.compile(".+", re.S)
->>> dotall_regex.findall(text)
-['From the beginning,\nin the middle,\nand at the end.']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{re.VERBOSE}
-\begin{frame}[fragile]
-\verb/re.VERBOSE, re.X/ \\
-\begin{lstlisting}
->>> import re
->>> numbers = "127.2, 15.30, 73"
->>> regex = re.compile(r"\d+\.?\d*")
->>> regex.findall(numbers)
-['127.2', '15.30', '73']
-\end{lstlisting}
-\pause
-\begin{lstlisting}
->>> verbose_regex = re.compile(r"""
-        \d +  # the integral part
-        \. ?  # the decimal point
-        \d *  # some fractional digits""", re.X)
->>> verbose_regex.findall(numbers)
-['127.2', '15.30', '73']
->>>
-\end{lstlisting}
-\end{frame}
-
-\subsubsection{re.LOCALE}
-\begin{frame}[fragile]
-\verb/re.LOCALE, re.L/ \\
-Make \verb/\w/, \verb/\W/, \verb/\b/, and \verb/\B/, dependent on the current locale instead of the Unicode database. \\
-\textit{Do not use. \\
-Deprecated in Python 3.5, will be removed in version 3.6}
 \end{frame}
 
 \end{document}
